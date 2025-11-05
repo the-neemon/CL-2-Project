@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from preprocessing import TweetPreprocessor
+from .preprocessing import TweetPreprocessor
 
 
 # Set random seeds for reproducibility

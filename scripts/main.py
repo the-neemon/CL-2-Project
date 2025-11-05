@@ -13,8 +13,13 @@ Phase: 1 - Data Preparation
 
 import argparse
 from pathlib import Path
+import sys
+import os
 
-from data_loader import (
+# Add parent directory to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from preprocessing.data_loader import (
     prepare_sentiment140_data,
     prepare_airline_data,
     RANDOM_SEED

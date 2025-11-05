@@ -1,6 +1,6 @@
 # Twitter Sentiment Analysis - Requirements
-# Phase 1: Data Preparation
-# Author: Naman
+# Phase 1 & 2: Data Preparation and Feature Engineering
+# Authors: Naman & Shrish
 
 # Core dependencies for data processing
 numpy>=1.21.0
@@ -9,6 +9,10 @@ scikit-learn>=1.0.0
 
 # NLP and text processing
 nltk>=3.6.0
+
+# Semantic features (Phase 2 - Shrish)
+gensim>=4.0.0
+vaderSentiment>=3.3.2
 
 # Development tools (optional but recommended)
 jupyter>=1.0.0

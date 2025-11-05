@@ -8,7 +8,13 @@ Author: Naman
 Phase: 1 - Data Preparation
 """
 
-from data_loader import prepare_sentiment140_data, prepare_airline_data
+import sys
+import os
+
+# Add parent directory to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from preprocessing.data_loader import prepare_sentiment140_data, prepare_airline_data
 
 
 def main():

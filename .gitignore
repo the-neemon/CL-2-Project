@@ -43,6 +43,11 @@ test_output/
 *.csv
 !datasets/**/*.csv
 
+# Feature extraction caches
+embeddings_cache/
+lexicons_cache/
+features_cache/
+
 # OS
 .DS_Store
 Thumbs.db
