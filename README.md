@@ -52,6 +52,23 @@ python scripts/main.py --dataset sentiment140 --sample-size 10000
 python scripts/process_full_data.py
 ```
 
+### Train Phase 2 Models
+
+```bash
+# Train Naive Bayes and Logistic Regression with default settings
+# Uses 50K samples, 5000 features, 5-fold CV
+python scripts/train_phase2.py
+
+# Train with custom settings
+python scripts/train_phase2.py --dataset sentiment140 --sample-size 100000 --max-features 10000 --cv-folds 10
+
+# Train on full dataset (1.6M tweets)
+python scripts/train_phase2.py --sample-size 0
+
+# Train on airline dataset
+python scripts/train_phase2.py --dataset airline
+```
+
 ---
 
 ## Project Structure
@@ -63,16 +80,22 @@ CL-2-Project/
 │   ├── preprocessing.py          # TweetPreprocessor class
 │   └── data_loader.py            # Data loading and splitting
 │
-├── features/                      # Feature extraction (Shrish - Phase 1)
+├── features/                      # Feature extraction (Phase 1 & 2)
 │   ├── __init__.py
-│   ├── contextual_features.py    # Negation, intensifiers, emphasis
-│   ├── semantic_embeddings.py    # Word2Vec, GloVe embeddings
-│   ├── lexicon_scoring.py        # VADER, NRC emotion lexicons
-│   └── feature_pipeline.py       # Unified feature extraction
+│   ├── contextual_features.py    # Negation, intensifiers, emphasis (Shrish)
+│   ├── semantic_embeddings.py    # Word2Vec, GloVe embeddings (Shrish)
+│   ├── lexicon_scoring.py        # VADER, NRC emotion lexicons (Shrish)
+│   ├── feature_pipeline.py       # Unified feature extraction (Shrish)
+│   └── traditional_features.py   # N-grams, POS tagging (Naman - Phase 2)
+│
+├── models/                        # ML models (Naman - Phase 2)
+│   ├── __init__.py
+│   └── traditional_models.py     # Naive Bayes, Logistic Regression
 │
 ├── scripts/                       # Execution scripts
 │   ├── main.py                   # Main preprocessing pipeline
-│   └── process_full_data.py      # Full dataset processor
+│   ├── process_full_data.py      # Full dataset processor
+│   └── train_phase2.py           # Train Phase 2 models (Naman)
 │
 ├── datasets/                      # Raw datasets (not tracked)
 │   ├── Sentiment140_dataset/
@@ -122,6 +145,48 @@ CL-2-Project/
 
 ---
 
+## Phase 2 Implementation (Complete ✓)
+
+### Traditional Feature Engineering (Naman)
+- ✅ **N-gram Features:**
+  - Unigram (single word) features
+  - Bigram (two-word phrase) features
+  - TF-IDF vectorization
+  - Configurable vocabulary size (default: 5000 features)
+  - Document frequency filtering (min_df=2, max_df=0.95)
+
+- ✅ **POS Tagging:**
+  - Sentiment-bearing POS categories:
+    - Adjectives (JJ, JJR, JJS) - descriptors
+    - Adverbs (RB, RBR, RBS) - intensifiers/modifiers
+    - Verbs (VB, VBD, VBG, VBN, VBP, VBZ) - actions/states
+    - Nouns (NN, NNS, NNP, NNPS) - entities/topics
+  - Normalized POS tag counts per text
+
+### Traditional ML Models (Naman)
+- ✅ **Naive Bayes:**
+  - Multinomial Naive Bayes for text classification
+  - Laplace smoothing (alpha=1.0)
+  - Probabilistic predictions with class priors
+  
+- ✅ **Logistic Regression:**
+  - L2 regularization (C=1.0)
+  - LBFGS solver for optimization
+  - Multi-core parallel training
+  
+- ✅ **Model Evaluation:**
+  - K-fold cross-validation (default: 5 folds)
+  - Metrics: Accuracy, Precision, Recall, F1-Score, ROC-AUC
+  - Confusion matrices and classification reports
+  - Model comparison framework
+  
+- ✅ **Model Persistence:**
+  - Save/load trained models (pickle)
+  - Feature extractor serialization
+  - Results export (CSV)
+
+---
+
 ## Usage Examples
 
 ### Python API - Preprocessing
@@ -147,7 +212,8 @@ from features import (
     ContextualFeatures,
     LexiconBasedScoring,
     SemanticEmbeddings,
-    FeatureExtractionPipeline
+    FeatureExtractionPipeline,
+    TraditionalFeatureExtractor
 )
 
 # Extract contextual features
@@ -163,6 +229,37 @@ scores = lexicon.extract_lexicon_features("This is amazing!")
 pipeline = FeatureExtractionPipeline()
 pipeline.initialize_extractors()
 all_features = pipeline.extract_all_features(["Sample tweet"])
+
+# Extract traditional N-gram and POS features
+extractor = TraditionalFeatureExtractor(
+    ngram_range=(1, 2),
+    max_features=5000
+)
+X_train = extractor.fit_transform(train_texts)
+X_test = extractor.transform(test_texts)
+```
+
+### Python API - Model Training
+
+```python
+from models import SentimentClassifier, compare_models
+
+# Train Naive Bayes
+nb_model = SentimentClassifier(model_type='naive_bayes', alpha=1.0)
+nb_model.fit(X_train, y_train)
+metrics = nb_model.evaluate(X_test, y_test)
+
+# Train Logistic Regression
+lr_model = SentimentClassifier(model_type='logistic_regression', C=1.0)
+lr_model.fit(X_train, y_train)
+predictions = lr_model.predict(X_test)
+
+# Compare multiple models with cross-validation
+models = {
+    'Naive Bayes': nb_model,
+    'Logistic Regression': lr_model
+}
+results_df = compare_models(models, X_train, y_train, X_test, y_test, cv=5)
 ```
 
 ---

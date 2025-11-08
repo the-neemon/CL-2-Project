@@ -48,6 +48,11 @@ embeddings_cache/
 lexicons_cache/
 features_cache/
 
+# Trained models
+trained_models/
+*.pkl
+*.joblib
+
 # OS
 .DS_Store
 Thumbs.db
