@@ -75,6 +75,19 @@ python example_evaluation.py
 python demo_best_model_and_success.py
 ```
 
+### Comparative Analysis (Phase 3 - Naman)
+
+```bash
+# Compare traditional features vs. semantic-enhanced features
+python scripts/comparative_analysis.py --sample-size 10000
+
+# Run comparative analysis on full dataset
+python scripts/comparative_analysis.py --sample-size 0
+
+# Compare on airline dataset
+python scripts/comparative_analysis.py --dataset airline --sample-size 0
+```
+
 ### Run Phase 3 (Cross-Domain Validation & Qualitative Analysis)
 
 ```bash
@@ -110,17 +123,21 @@ CL-2-Project/
 │   ├── feature_pipeline.py       # Unified feature extraction (Shrish)
 │   └── traditional_features.py   # N-grams, POS tagging (Naman - Phase 2)
 │
-├── models/                        # ML models (Naman - Phase 2)
+├── models/                        # ML models (Naman - Phase 2 & 3)
 │   ├── __init__.py
-│   └── traditional_models.py     # Naive Bayes, Logistic Regression
+│   ├── traditional_models.py     # Naive Bayes, Logistic Regression
+│   ├── success_analysis.py       # Success pattern analysis (Phase 2)
+│   └── error_analysis.py         # Error pattern analysis (Phase 3)
 │
 ├── scripts/                       # Execution scripts
 │   ├── main.py                   # Main preprocessing pipeline
 │   ├── process_full_data.py      # Full dataset processor
 │   ├── train_phase2.py           # Train Phase 2 models (Naman)
-│   ├── cross_domain_validation.py # Phase 3: Cross-domain validation
-│   ├── qualitative_analysis.py   # Phase 3: Qualitative analysis
-│   └── run_phase3.py             # Phase 3: Complete pipeline
+│   ├── comparative_analysis.py   # Comparative analysis (Naman - Phase 3)
+│   ├── train_with_ablation.py    # Feature ablation study (Shrish)
+│   ├── cross_domain_validation.py # Phase 3: Cross-domain validation (Shrish)
+│   ├── qualitative_analysis.py   # Phase 3: Qualitative analysis (Shrish)
+│   └── run_phase3.py             # Phase 3: Complete pipeline (Shrish)
 │
 ├── datasets/                      # Raw datasets (not tracked)
 │   ├── Sentiment140_dataset/
@@ -179,6 +196,7 @@ CL-2-Project/
   - TF-IDF vectorization
   - Configurable vocabulary size (default: 5000 features)
   - Document frequency filtering (min_df=2, max_df=0.95)
+  - **Memory-optimized sparse matrix support** for large datasets (1.6M tweets)
 
 - ✅ **POS Tagging:**
   - Sentiment-bearing POS categories:
@@ -193,28 +211,70 @@ CL-2-Project/
   - Multinomial Naive Bayes for text classification
   - Laplace smoothing (alpha=1.0)
   - Probabilistic predictions with class priors
+  - Sparse matrix support for memory efficiency
   
 - ✅ **Logistic Regression:**
   - L2 regularization (C=1.0)
   - LBFGS solver for optimization
   - Multi-core parallel training
+  - Sparse matrix support for large-scale training
   
 - ✅ **Model Evaluation:**
   - K-fold cross-validation (default: 5 folds)
   - Metrics: Accuracy, Precision, Recall, F1-Score, ROC-AUC
   - Confusion matrices and classification reports
   - Model comparison framework
+  - **Best model identification** based on maximum F1-score
+  
+- ✅ **Success Analysis:**
+  - Analyze correctly classified instances
+  - Per-class success rates
+  - Confidence distribution analysis
+  - High-confidence prediction identification
+  - Text characteristic patterns
+  - Model agreement/disagreement analysis
   
 - ✅ **Model Persistence:**
   - Save/load trained models (pickle)
   - Feature extractor serialization
-  - Results export (CSV)
+  - Results export (CSV, JSON)
 
 ---
 
 ## Phase 3 Implementation (Complete ✓)
 
-### Cross-Domain Validation (Week 4)
+### Integration & Analysis (Naman)
+- ✅ **Semantic Feature Integration:**
+  - Integrated contextual features (negation, intensifiers)
+  - Integrated semantic embeddings (Word2Vec, GloVe)
+  - Integrated lexicon-based scoring (VADER, NRC)
+  - Unified feature pipeline support
+
+- ✅ **Comparative Analysis:**
+  - Performance comparison: Traditional vs. Semantic-enhanced features
+  - Feature ablation study integration
+  - Impact analysis of semantic features
+  - Automated comparison tables and metrics
+  - Side-by-side performance evaluation
+  
+- ✅ **Error Analysis:**
+  - Analyze misclassified instances
+  - Per-class error rates and patterns
+  - Confidence analysis for errors
+  - High-confidence error identification (≥90% threshold)
+  - Text characteristic analysis for errors
+  - Confusion pattern detection
+  - Model error comparison
+  - Sample error inspection with detailed reporting
+  
+- ✅ **Documentation:**
+  - Comprehensive preprocessing pipeline documentation
+  - Traditional feature extraction documentation
+  - Model training and evaluation documentation
+  - Usage examples and API reference
+  - Integration guides
+
+### Cross-Domain Validation (Shrish)
 - ✅ **Train on Sentiment140, Test on Airline Dataset:**
   - Source domain: Sentiment140 (general Twitter sentiment)
   - Target domain: Twitter US Airline Sentiment (domain-specific)
@@ -227,7 +287,7 @@ CL-2-Project/
   - ROC-AUC for probability calibration
   - Domain transfer effectiveness evaluation
 
-### Qualitative Analysis (Week 4)
+### Qualitative Analysis (Shrish)
 - ✅ **Representative Tweet Inspection:**
   - Sample analysis across prediction categories:
     - True Negatives (Correct)
@@ -250,10 +310,13 @@ CL-2-Project/
   - Export comprehensive analysis reports (JSON + Markdown)
 
 ### Outputs Generated
-- `cross_domain_validation.json` - Full cross-domain results
-- `qualitative_analysis.json` - Detailed sample analyses
-- `phase3_comprehensive_report.json` - Combined insights
-- `PHASE3_REPORT.md` - Human-readable summary report
+- `comparison_table.csv` - Feature comparison results (Naman)
+- `error_analysis.json` - Detailed error analysis (Naman)
+- `success_analysis.json` - Success pattern analysis (Naman)
+- `cross_domain_validation.json` - Full cross-domain results (Shrish)
+- `qualitative_analysis.json` - Detailed sample analyses (Shrish)
+- `phase3_comprehensive_report.json` - Combined insights (Shrish)
+- `PHASE3_REPORT.md` - Human-readable summary report (Shrish)
 
 ---
 
@@ -312,7 +375,7 @@ X_test = extractor.transform(test_texts)
 ### Python API - Model Training
 
 ```python
-from models import SentimentClassifier, compare_models
+from models import SentimentClassifier, compare_models, SuccessAnalyzer, ErrorAnalyzer
 
 # Train Naive Bayes
 nb_model = SentimentClassifier(model_type='naive_bayes', alpha=1.0)
@@ -330,6 +393,40 @@ models = {
     'Logistic Regression': lr_model
 }
 results_df = compare_models(models, X_train, y_train, X_test, y_test, cv=5)
+
+# Success Analysis (Phase 2)
+success_analyzer = SuccessAnalyzer()
+success_results = success_analyzer.analyze_correct_predictions(
+    model=lr_model,
+    X=X_test,
+    y=y_test,
+    texts=test_texts
+)
+
+# Error Analysis (Phase 3 - Naman)
+error_analyzer = ErrorAnalyzer()
+error_results = error_analyzer.analyze_errors(
+    model=lr_model,
+    X=X_test,
+    y_true=y_test,
+    texts=test_texts,
+    model_name="Logistic Regression"
+)
+
+# Compare error patterns between models
+error_comparison = error_analyzer.compare_model_errors(
+    model1=nb_model,
+    model2=lr_model,
+    X=X_test,
+    y_true=y_test,
+    texts=test_texts,
+    model1_name="Naive Bayes",
+    model2_name="Logistic Regression"
+)
+
+# Export analyses
+success_analyzer.export_analysis('success_analysis.json')
+error_analyzer.export_analysis('error_analysis.json')
 ```
 
 ---
@@ -389,20 +486,30 @@ python test_integration.py
 
 ---
 
-## Next Steps (Phase 2)
+## Project Status
 
-**Naman:**
-- [ ] Implement N-gram feature extraction
-- [ ] Train Naive Bayes classifier
-- [ ] Train Logistic Regression
-- [ ] Set up cross-validation framework
-- [ ] Initial model evaluation
+**Phase 1 - Data Preparation:** ✅ Complete  
+**Phase 2 - Traditional ML:** ✅ Complete  
+**Phase 3 - Integration & Analysis:** ✅ Complete  
 
-**Shrish:**
-- [ ] Train Random Forest classifier
-- [ ] Feature ablation study
-- [ ] Cross-domain validation
-- [ ] Comparative analysis
+**Key Achievements:**
+- ✅ Processed 1.6M tweets from Sentiment140 dataset
+- ✅ Memory-optimized sparse matrix implementation (46.9 GiB → ~50 MB)
+- ✅ Trained models on full dataset
+- ✅ Comprehensive success and error analysis
+- ✅ Semantic feature integration ready
+- ✅ Comparative analysis framework complete
+- ✅ Cross-domain validation implemented
+- ✅ Qualitative analysis complete
+
+**Final Deliverables:**
+- ✅ Comparative performance analysis (Naman)
+- ✅ Error and success analysis framework (Naman)
+- ✅ Feature ablation study (Shrish)
+- ✅ Cross-domain validation (Shrish)
+- ✅ Qualitative analysis (Shrish)
+- ✅ Complete documentation
+- [ ] Project presentation/report (In Progress)
 
 ---
 

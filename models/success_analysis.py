@@ -117,11 +117,13 @@ class SuccessAnalyzer:
         
         # Analyze text characteristics
         print(f"\n📝 Text Characteristics:")
-        correct_texts = texts[correct_mask]
-        incorrect_texts = texts[~correct_mask]
+        # Ensure texts is a numpy array for boolean indexing
+        texts_array = np.array(texts) if not isinstance(texts, np.ndarray) else texts
+        correct_texts = texts_array[correct_mask]
+        incorrect_texts = texts_array[~correct_mask]
         
-        correct_lengths = [len(text.split()) for text in correct_texts]
-        incorrect_lengths = [len(text.split()) for text in incorrect_texts]
+        correct_lengths = [len(str(text).split()) for text in correct_texts]
+        incorrect_lengths = [len(str(text).split()) for text in incorrect_texts]
         
         print(f"  Correctly classified texts:")
         print(f"    Mean length: {np.mean(correct_lengths):.1f} words")
@@ -189,11 +191,14 @@ class SuccessAnalyzer:
         sorted_idx = np.argsort(high_conf_confidences)[::-1]
         sample_indices = high_conf_indices[sorted_idx[:num_samples]]
         
+        # Ensure texts is a numpy array for indexing
+        texts_array = np.array(texts) if not isinstance(texts, np.ndarray) else texts
+        
         for i, idx in enumerate(sample_indices, 1):
             true_label = y_true[idx]
             pred_label = y_pred[idx]
             confidence = np.max(y_proba[idx])
-            text = texts[idx]
+            text = texts_array[idx]
             
             label_name = "Negative" if true_label == 0 else "Positive"
             
@@ -259,19 +264,25 @@ class SuccessAnalyzer:
         # Show samples where models differ
         print(f"\n🔍 Samples where {model1_name} succeeds but {model2_name} fails:")
         only_model1_indices = np.where(only_model1)[0]
+        # Ensure texts is a numpy array for indexing
+        texts_array = np.array(texts) if not isinstance(texts, np.ndarray) else texts
         if len(only_model1_indices) > 0:
             for i, idx in enumerate(only_model1_indices[:3], 1):
                 print(f"  [{i}] True: {y[idx]}, {model1_name}: {y_pred1[idx]}, "
                       f"{model2_name}: {y_pred2[idx]}")
-                print(f"      \"{texts[idx][:80]}...\"")
+                print(f"      \"{str(texts_array[idx])[:80]}...\"")
         else:
             print("  None found")
+        
+        total_samples = len(y)
+        agreement_rate = float(np.sum(both_correct) / total_samples) if total_samples > 0 else 0.0
         
         return {
             'both_correct': int(np.sum(both_correct)),
             'only_model1_correct': int(np.sum(only_model1)),
             'only_model2_correct': int(np.sum(only_model2)),
-            'both_incorrect': int(np.sum(both_wrong))
+            'both_incorrect': int(np.sum(both_wrong)),
+            'agreement_rate': agreement_rate
         }
     
     def export_analysis(self, filepath: str):

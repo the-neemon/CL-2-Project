@@ -7,11 +7,13 @@ from .traditional_models import (
     FeatureAblationStudy
 )
 from .success_analysis import SuccessAnalyzer
+from .error_analysis import ErrorAnalyzer
 
 __all__ = [
     'SentimentClassifier',
     'cross_validate_model',
     'compare_models',
     'FeatureAblationStudy',
-    'SuccessAnalyzer'
+    'SuccessAnalyzer',
+    'ErrorAnalyzer'
 ]

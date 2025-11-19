@@ -23,6 +23,7 @@ from preprocessing.data_loader import SentimentDataLoader
 from features.traditional_features import TraditionalFeatureExtractor
 from models.traditional_models import SentimentClassifier, compare_models
 from models.success_analysis import SuccessAnalyzer
+from models.error_analysis import ErrorAnalyzer
 
 
 def load_preprocessed_data(dataset: str = 'sentiment140',
@@ -316,13 +317,48 @@ def main():
                 test_texts
             )
     
-    # Export analysis if saving models
+    # Export success analysis if saving models
     if not args.no_save:
         output_dir = Path('trained_models/phase2')
         analyzer.export_analysis(output_dir / 'success_analysis.json')
     
+    # PHASE 3: Error Analysis
     print("\n" + "="*70)
-    print("✅ ALL PHASE 2 TASKS COMPLETE!")
+    print("📊 PHASE 3: Error Analysis on Misclassified Instances")
+    print("="*70)
+    
+    # Perform error analysis on best model
+    error_analyzer = ErrorAnalyzer()
+    error_results = error_analyzer.analyze_errors(
+        best_model,
+        results['X_test'],
+        results['y_test'],
+        test_texts,
+        model_name=best_model_name
+    )
+    
+    # Compare error patterns between models if we have multiple
+    if len(results['models']) > 1:
+        model_names = list(results['models'].keys())
+        if len(model_names) >= 2:
+            print("\n🔄 Comparing Error Patterns Between Models")
+            error_comparison = error_analyzer.compare_model_errors(
+                results['models'][model_names[0]],
+                results['models'][model_names[1]],
+                results['X_test'],
+                results['y_test'],
+                test_texts,
+                model1_name=model_names[0],
+                model2_name=model_names[1]
+            )
+    
+    # Export error analysis if saving models
+    if not args.no_save:
+        output_dir = Path('trained_models/phase2')
+        error_analyzer.export_analysis(output_dir / 'error_analysis.json')
+    
+    print("\n" + "="*70)
+    print("✅ ALL PHASE 2 & 3 TASKS COMPLETE!")
     print("="*70)
 
 
