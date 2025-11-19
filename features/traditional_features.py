@@ -14,6 +14,7 @@ from typing import List, Tuple, Dict, Optional, Union
 from collections import Counter
 import pickle
 from pathlib import Path
+from scipy import sparse
 
 import nltk
 from nltk import pos_tag
@@ -178,7 +179,7 @@ class TraditionalFeatureExtractor:
         
         return self
     
-    def transform(self, texts: List[str]) -> np.ndarray:
+    def transform(self, texts: List[str]) -> sparse.csr_matrix:
         """
         Transform texts to feature vectors.
         
@@ -186,23 +187,26 @@ class TraditionalFeatureExtractor:
             texts: List of preprocessed texts
             
         Returns:
-            Combined feature matrix [n_texts, n_features]
+            Combined feature matrix [n_texts, n_features] as sparse CSR matrix
         """
         if not self.is_fitted:
             raise ValueError("Extractor must be fitted before transform. Call fit() first.")
         
-        # Extract N-gram features
-        ngram_features = self.vectorizer.transform(texts).toarray()
+        # Extract N-gram features (keep as sparse matrix for memory efficiency)
+        ngram_features = self.vectorizer.transform(texts)
         
         # Extract POS features
         pos_features = self.extract_pos_features(texts)
         
-        # Combine features
-        combined_features = np.hstack([ngram_features, pos_features])
+        # Convert POS features to sparse matrix
+        pos_features_sparse = sparse.csr_matrix(pos_features)
+        
+        # Combine features (use sparse hstack for memory efficiency)
+        combined_features = sparse.hstack([ngram_features, pos_features_sparse])
         
         return combined_features
     
-    def fit_transform(self, texts: List[str]) -> np.ndarray:
+    def fit_transform(self, texts: List[str]) -> sparse.csr_matrix:
         """
         Fit extractor and transform texts in one step.
         
@@ -210,7 +214,7 @@ class TraditionalFeatureExtractor:
             texts: List of preprocessed texts
             
         Returns:
-            Feature matrix [n_texts, n_features]
+            Feature matrix [n_texts, n_features] as sparse CSR matrix
         """
         self.fit(texts)
         return self.transform(texts)
