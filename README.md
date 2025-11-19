@@ -75,6 +75,22 @@ python example_evaluation.py
 python demo_best_model_and_success.py
 ```
 
+### Run Phase 3 (Cross-Domain Validation & Qualitative Analysis)
+
+```bash
+# Run complete Phase 3 pipeline (recommended)
+python scripts/run_phase3.py
+
+# Run with custom settings
+python scripts/run_phase3.py --source-sample-size 100000 --max-features 10000 --n-qualitative-samples 20
+
+# Run only cross-domain validation
+python scripts/cross_domain_validation.py
+
+# Run only qualitative analysis
+python scripts/qualitative_analysis.py --n-samples 15
+```
+
 ---
 
 ## Project Structure
@@ -101,7 +117,10 @@ CL-2-Project/
 ├── scripts/                       # Execution scripts
 │   ├── main.py                   # Main preprocessing pipeline
 │   ├── process_full_data.py      # Full dataset processor
-│   └── train_phase2.py           # Train Phase 2 models (Naman)
+│   ├── train_phase2.py           # Train Phase 2 models (Naman)
+│   ├── cross_domain_validation.py # Phase 3: Cross-domain validation
+│   ├── qualitative_analysis.py   # Phase 3: Qualitative analysis
+│   └── run_phase3.py             # Phase 3: Complete pipeline
 │
 ├── datasets/                      # Raw datasets (not tracked)
 │   ├── Sentiment140_dataset/
@@ -190,6 +209,51 @@ CL-2-Project/
   - Save/load trained models (pickle)
   - Feature extractor serialization
   - Results export (CSV)
+
+---
+
+## Phase 3 Implementation (Complete ✓)
+
+### Cross-Domain Validation (Week 4)
+- ✅ **Train on Sentiment140, Test on Airline Dataset:**
+  - Source domain: Sentiment140 (general Twitter sentiment)
+  - Target domain: Twitter US Airline Sentiment (domain-specific)
+  - Binary classification: Negative (0) vs Positive (1)
+  - Multiple model comparison (Logistic Regression, Naive Bayes, Random Forest)
+  - Domain gap analysis (in-domain vs cross-domain performance)
+  
+- ✅ **Performance Metrics:**
+  - Accuracy, Precision, Recall, F1-Score
+  - ROC-AUC for probability calibration
+  - Domain transfer effectiveness evaluation
+
+### Qualitative Analysis (Week 4)
+- ✅ **Representative Tweet Inspection:**
+  - Sample analysis across prediction categories:
+    - True Negatives (Correct)
+    - True Positives (Correct)
+    - False Positives (Errors)
+    - False Negatives (Errors)
+  - Confidence-stratified sampling (high/medium/low confidence)
+  
+- ✅ **Semantic Feature Interpretation:**
+  - **Negation Analysis:** Detection and context extraction
+  - **Intensifier Patterns:** "very", "really", "extremely" usage
+  - **VADER Lexicon Scores:** Positive/negative/neutral signals
+  - **Emphasis Detection:** ALL CAPS, exclamation marks, questions
+  - **Text Complexity:** Length, mentions, hashtags, URLs
+  
+- ✅ **Pattern Discovery:**
+  - Compare semantic patterns in correct vs incorrect predictions
+  - Identify features that contribute to success/failure
+  - Generate actionable insights for model improvement
+  - Export comprehensive analysis reports (JSON + Markdown)
+
+### Outputs Generated
+- `cross_domain_validation.json` - Full cross-domain results
+- `qualitative_analysis.json` - Detailed sample analyses
+- `phase3_comprehensive_report.json` - Combined insights
+- `PHASE3_REPORT.md` - Human-readable summary report
 
 ---
 
