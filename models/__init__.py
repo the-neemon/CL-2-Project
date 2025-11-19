@@ -6,10 +6,12 @@ from .traditional_models import (
     compare_models,
     FeatureAblationStudy
 )
+from .success_analysis import SuccessAnalyzer
 
 __all__ = [
     'SentimentClassifier',
     'cross_validate_model',
     'compare_models',
-    'FeatureAblationStudy'
+    'FeatureAblationStudy',
+    'SuccessAnalyzer'
 ]

@@ -67,6 +67,12 @@ python scripts/train_phase2.py --sample-size 0
 
 # Train on airline dataset
 python scripts/train_phase2.py --dataset airline
+
+# Run evaluation and cross-validation example
+python example_evaluation.py
+
+# Demo: Best model identification & success analysis
+python demo_best_model_and_success.py
 ```
 
 ---

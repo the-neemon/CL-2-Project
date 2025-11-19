@@ -22,6 +22,7 @@ sys.path.insert(0, str(project_root))
 from preprocessing.data_loader import SentimentDataLoader
 from features.traditional_features import TraditionalFeatureExtractor
 from models.traditional_models import SentimentClassifier, compare_models
+from models.success_analysis import SuccessAnalyzer
 
 
 def load_preprocessed_data(dataset: str = 'sentiment140',
@@ -205,7 +206,9 @@ def train_phase2_models(dataset: str = 'sentiment140',
         'X_train': X_train,
         'y_train': y_train,
         'X_test': X_test,
-        'y_test': y_test
+        'y_test': y_test,
+        'train_texts': X_train_text,
+        'test_texts': X_test_text
     }
 
 
@@ -267,12 +270,60 @@ def main():
     print("\n" + "="*70)
     print("PHASE 2 TRAINING COMPLETE!")
     print("="*70)
-    print("\nBest Model (by F1-Score):")
+    
+    # Task 1: Identify best-performing model based on maximum F1-score
+    print("\n🏆 TASK: Identify Best-Performing Model by F1-Score")
+    print("="*70)
     best_idx = results['results']['test_f1'].idxmax()
-    best_model = results['results'].iloc[best_idx]
-    print(f"  Model: {best_model['model']}")
-    print(f"  F1-Score: {best_model['test_f1']:.4f}")
-    print(f"  Accuracy: {best_model['test_accuracy']:.4f}")
+    best_model_row = results['results'].iloc[best_idx]
+    best_model_name = best_model_row['model']
+    best_model = results['models'][best_model_name]
+    
+    print(f"\n✓ Best Model: {best_model_name}")
+    print(f"  Test F1-Score: {best_model_row['test_f1']:.4f}")
+    print(f"  Test Accuracy: {best_model_row['test_accuracy']:.4f}")
+    print(f"  Test Precision: {best_model_row['test_precision']:.4f}")
+    print(f"  Test Recall: {best_model_row['test_recall']:.4f}")
+    
+    # Task 2: Conduct success analysis on correctly classified instances
+    print("\n📊 TASK: Success Analysis on Correctly Classified Instances")
+    print("="*70)
+    
+    # Get original texts for analysis
+    test_texts = np.array(results['test_texts'])
+    
+    # Perform success analysis on best model
+    analyzer = SuccessAnalyzer()
+    analysis_results = analyzer.analyze_correct_predictions(
+        best_model,
+        results['X_test'],
+        results['y_test'],
+        test_texts
+    )
+    
+    # Compare models if we have multiple
+    if len(results['models']) > 1:
+        model_names = list(results['models'].keys())
+        if len(model_names) >= 2:
+            print("\n🔄 Comparing Success Patterns Between Models")
+            comparison = analyzer.compare_success_patterns(
+                model_names[0],
+                results['models'][model_names[0]],
+                model_names[1],
+                results['models'][model_names[1]],
+                results['X_test'],
+                results['y_test'],
+                test_texts
+            )
+    
+    # Export analysis if saving models
+    if not args.no_save:
+        output_dir = Path('trained_models/phase2')
+        analyzer.export_analysis(output_dir / 'success_analysis.json')
+    
+    print("\n" + "="*70)
+    print("✅ ALL PHASE 2 TASKS COMPLETE!")
+    print("="*70)
 
 
 if __name__ == '__main__':
