@@ -94,7 +94,7 @@ class SentimentClassifier:
             self
         """
         print(f"\nTraining {self.model_type}...")
-        print(f"  Training samples: {len(X)}")
+        print(f"  Training samples: {X.shape[0]}")
         print(f"  Features: {X.shape[1]}")
         
         start_time = time.time()
@@ -294,7 +294,7 @@ def cross_validate_model(model: SentimentClassifier,
     if verbose:
         print(f"\nPerforming {cv}-fold cross-validation...")
         print(f"  Model: {model.model_type}")
-        print(f"  Samples: {len(X)}")
+        print(f"  Samples: {X.shape[0]}")
     
     # Define scoring metrics
     scoring = {
