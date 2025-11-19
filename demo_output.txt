@@ -1,0 +1,179 @@
+================================================================================
+DEMO: BEST MODEL IDENTIFICATION & SUCCESS ANALYSIS
+================================================================================
+
+[1] Loading data...
+Loading 10 Sentiment140 CSV files...
+Total tweets loaded: 1,600,000
+Sampled 3,000 tweets
+Final dataset size: 3,000
+Sentiment distribution:
+sentiment
+0    1540
+1    1460
+Name: count, dtype: int64
+
+Creating train-test split (test_size=0.2)...
+Training set size: 2,400
+Test set size: 600
+
+Training set sentiment distribution:
+sentiment
+0    1232
+1    1168
+Name: count, dtype: int64
+
+Test set sentiment distribution:
+sentiment
+0    308
+1    292
+Name: count, dtype: int64
+
+Preprocessing 2,400 tweets...
+Removed 8 tweets that became empty after preprocessing
+Preprocessing complete. Final size: 2,392
+
+Preprocessing 600 tweets...
+Removed 3 tweets that became empty after preprocessing
+Preprocessing complete. Final size: 597
+✓ Train: 2392 samples
+✓ Test:  597 samples
+
+[2] Extracting features...
+Fitting TraditionalFeatureExtractor...
+  N-gram range: (1, 2)
+  Max features: 1500
+✓ Fitted on 2392 texts
+✓ Vocabulary size: 1500
+✓ Feature vector size: 1500
+
+[3] Training models...
+
+  Training Naive Bayes...
+
+Training naive_bayes...
+  Training samples: 2392
+  Features: 1516
+✓ Training completed in 0.00s
+    F1-Score: 0.6477
+
+  Training Logistic Regression...
+
+Training logistic_regression...
+  Training samples: 2392
+  Features: 1516
+✓ Training completed in 0.84s
+    F1-Score: 0.6715
+
+================================================================================
+TASK 1: IDENTIFY BEST-PERFORMING MODEL BY F1-SCORE
+================================================================================
+
+🏆 Best Model: Logistic Regression
+  ✓ F1-Score:  0.6715
+  ✓ Accuracy:  0.6717
+  ✓ Precision: 0.6716
+  ✓ Recall:    0.6717
+
+📊 All Model Rankings by F1-Score:
+  1. Logistic Regression  F1=0.6715
+  2. Naive Bayes          F1=0.6477
+
+================================================================================
+TASK 2: SUCCESS ANALYSIS ON CORRECTLY CLASSIFIED INSTANCES
+================================================================================
+
+📈 Analyzing Logistic Regression...
+
+======================================================================
+SUCCESS ANALYSIS: CORRECTLY CLASSIFIED INSTANCES
+======================================================================
+
+📊 Overall Statistics:
+  Total samples: 597
+  Correctly classified: 401 (67.17%)
+  Incorrectly classified: 196 (32.83%)
+
+📋 Success by Class:
+  Negative (class 0): 212/306 (69.28%)
+  Positive (class 1): 189/291 (64.95%)
+
+📈 Confidence Analysis:
+  Correct predictions:
+    Mean confidence: 0.6605
+    Median confidence: 0.6487
+    Std confidence: 0.1064
+  Incorrect predictions:
+    Mean confidence: 0.5977
+    Median confidence: 0.5830
+    Std confidence: 0.0694
+
+🎯 High Confidence Correct Predictions (≥0.9):
+  Count: 5 (1.25% of correct)
+
+📝 Text Characteristics:
+  Correctly classified texts:
+    Mean length: 6.8 words
+    Median length: 6.0 words
+  Incorrectly classified texts:
+    Mean length: 7.6 words
+    Median length: 7.0 words
+
+✨ Sample High-Confidence Correct Predictions:
+
+  [1] Confidence: 0.9573
+      True/Pred: Positive (both 1)
+      Text: "thanks love hat"
+
+  [2] Confidence: 0.9365
+      True/Pred: Positive (both 1)
+      Text: "thanks"
+
+  [3] Confidence: 0.9292
+      True/Pred: Negative (both 0)
+      Text: "wish met"
+
+  [4] Confidence: 0.9262
+      True/Pred: Negative (both 0)
+      Text: "feeling sad farrah fawcett died"
+
+  [5] Confidence: 0.9192
+      True/Pred: Positive (both 1)
+      Text: "love biscuit"
+
+================================================================================
+BONUS: COMPARING Naive Bayes vs Logistic Regression
+================================================================================
+
+======================================================================
+COMPARING SUCCESS PATTERNS: Naive Bayes vs Logistic Regression
+======================================================================
+
+📊 Agreement Analysis:
+  Both correct: 365 (61.14%)
+  Only Naive Bayes correct: 22 (3.69%)
+  Only Logistic Regression correct: 36 (6.03%)
+  Both incorrect: 174 (29.15%)
+
+🔍 Samples where Naive Bayes succeeds but Logistic Regression fails:
+  [1] True: 1, Naive Bayes: 1, Logistic Regression: 0
+      "going london today watching star family fortune p mexican wave last night incred..."
+  [2] True: 1, Naive Bayes: 1, Logistic Regression: 0
+      "turned event planner two week plan design mktg material etc ahhh also exciting..."
+  [3] True: 1, Naive Bayes: 1, Logistic Regression: 0
+      "excited bout seek night who's gonna..."
+
+💡 Key Insights:
+  • Agreement on correct: 365 samples
+  • Naive Bayes unique successes: 22
+  • Logistic Regression unique successes: 36
+
+================================================================================
+✅ DEMONSTRATION COMPLETE
+================================================================================
+
+Summary:
+  ✓ Task 1: Best model identified based on maximum F1-score
+  ✓ Task 2: Success analysis conducted on correctly classified instances
+  ✓ Bonus: Model comparison showing unique strengths
+    

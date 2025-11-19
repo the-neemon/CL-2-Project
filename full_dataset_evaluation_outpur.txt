@@ -1,0 +1,257 @@
+======================================================================
+PHASE 2: TRADITIONAL FEATURE ENGINEERING & MODELS
+======================================================================
+
+Loading sentiment140 dataset...
+Loading 10 Sentiment140 CSV files...
+Total tweets loaded: 1,600,000
+Final dataset size: 1,581,466
+Sentiment distribution:
+sentiment
+1    791281
+0    790185
+Name: count, dtype: int64
+
+Creating train-test split (test_size=0.2)...
+Training set size: 1,265,172
+Test set size: 316,294
+
+Training set sentiment distribution:
+sentiment
+1    633024
+0    632148
+Name: count, dtype: int64
+
+Test set sentiment distribution:
+sentiment
+1    158257
+0    158037
+Name: count, dtype: int64
+
+Preprocessing 1,265,172 tweets...
+Removed 5778 tweets that became empty after preprocessing
+Preprocessing complete. Final size: 1,259,394
+
+Preprocessing 316,294 tweets...
+Removed 1449 tweets that became empty after preprocessing
+Preprocessing complete. Final size: 314,845
+✓ Loaded 1259394 training samples
+✓ Loaded 314845 test samples
+
+Class distribution (train): {np.int64(0): np.int64(629241), np.int64(1): np.int64(630153)}
+Class distribution (test):  {np.int64(0): np.int64(157294), np.int64(1): np.int64(157551)}
+
+======================================================================
+FEATURE EXTRACTION
+======================================================================
+Fitting TraditionalFeatureExtractor...
+  N-gram range: (1, 2)
+  Max features: 5000
+✓ Fitted on 1259394 texts
+✓ Vocabulary size: 5000
+✓ Feature vector size: 5000
+
+✓ Feature extraction complete
+  Training shape: (1259394, 5016)
+  Test shape: (314845, 5016)
+
+======================================================================
+MODEL TRAINING & EVALUATION
+======================================================================
+
+============================================================
+Training and evaluating: Naive Bayes
+============================================================
+
+Training naive_bayes...
+  Training samples: 1259394
+  Features: 5016
+✓ Training completed in 0.12s
+
+NAIVE_BAYES Evaluation:
+  Accuracy:  0.7620
+  Precision: 0.7621
+  Recall:    0.7620
+  F1-Score:  0.7620
+  ROC-AUC:   0.8425
+
+Performing 5-fold cross-validation...
+  Model: naive_bayes
+  Samples: 1259394
+  Accuracy  : 0.7603 (+/- 0.0007)
+  Precision : 0.7604 (+/- 0.0008)
+  Recall    : 0.7603 (+/- 0.0007)
+  F1        : 0.7603 (+/- 0.0007)
+
+============================================================
+Training and evaluating: Logistic Regression
+============================================================
+
+Training logistic_regression...
+  Training samples: 1259394
+  Features: 5016
+✓ Training completed in 10.06s
+
+LOGISTIC_REGRESSION Evaluation:
+  Accuracy:  0.7762
+  Precision: 0.7767
+  Recall:    0.7762
+  F1-Score:  0.7761
+  ROC-AUC:   0.8572
+
+Performing 5-fold cross-validation...
+  Model: logistic_regression
+  Samples: 1259394
+  Accuracy  : 0.7750 (+/- 0.0011)
+  Precision : 0.7755 (+/- 0.0011)
+  Recall    : 0.7750 (+/- 0.0011)
+  F1        : 0.7749 (+/- 0.0011)
+
+============================================================
+MODEL COMPARISON SUMMARY
+============================================================
+              model  test_accuracy  test_precision  test_recall  test_f1  cv_accuracy_mean  cv_accuracy_std  cv_f1_mean  cv_f1_std  training_time  test_roc_auc
+        Naive Bayes       0.762026        0.762050     0.762026 0.762019          0.760337         0.000749    0.760331   0.000748       0.119301      0.842491
+Logistic Regression       0.776160        0.776673     0.776160 0.776050          0.774966         0.001092    0.774857   0.001094      10.063128      0.857228
+
+======================================================================
+DETAILED CLASSIFICATION REPORTS
+======================================================================
+
+Naive Bayes:
+------------------------------------------------------------
+              precision    recall  f1-score   support
+
+           0       0.76      0.76      0.76    157294
+           1       0.76      0.77      0.76    157551
+
+    accuracy                           0.76    314845
+   macro avg       0.76      0.76      0.76    314845
+weighted avg       0.76      0.76      0.76    314845
+
+
+Confusion Matrix:
+[[119039  38255]
+ [ 36670 120881]]
+
+Logistic Regression:
+------------------------------------------------------------
+              precision    recall  f1-score   support
+
+           0       0.79      0.75      0.77    157294
+           1       0.76      0.80      0.78    157551
+
+    accuracy                           0.78    314845
+   macro avg       0.78      0.78      0.78    314845
+weighted avg       0.78      0.78      0.78    314845
+
+
+Confusion Matrix:
+[[118641  38653]
+ [ 31822 125729]]
+
+======================================================================
+SAVING MODELS
+======================================================================
+✓ Feature extractor saved to trained_models/phase2/feature_extractor.pkl
+✓ Model saved to trained_models/phase2/naive_bayes.pkl
+✓ Model saved to trained_models/phase2/logistic_regression.pkl
+✓ Results saved to trained_models/phase2/results.csv
+
+======================================================================
+PHASE 2 TRAINING COMPLETE!
+======================================================================
+
+🏆 TASK: Identify Best-Performing Model by F1-Score
+======================================================================
+
+✓ Best Model: Logistic Regression
+  Test F1-Score: 0.7761
+  Test Accuracy: 0.7762
+  Test Precision: 0.7767
+  Test Recall: 0.7762
+
+📊 TASK: Success Analysis on Correctly Classified Instances
+======================================================================
+
+======================================================================
+SUCCESS ANALYSIS: CORRECTLY CLASSIFIED INSTANCES
+======================================================================
+
+📊 Overall Statistics:
+  Total samples: 314845
+  Correctly classified: 244370 (77.62%)
+  Incorrectly classified: 70475 (22.38%)
+
+📋 Success by Class:
+  Negative (class 0): 118641/157294 (75.43%)
+  Positive (class 1): 125729/157551 (79.80%)
+
+📈 Confidence Analysis:
+  Correct predictions:
+    Mean confidence: 0.7965
+    Median confidence: 0.8193
+    Std confidence: 0.1406
+  Incorrect predictions:
+    Mean confidence: 0.6782
+    Median confidence: 0.6550
+    Std confidence: 0.1252
+
+🎯 High Confidence Correct Predictions (≥0.9):
+  Count: 74640 (30.54% of correct)
+
+📝 Text Characteristics:
+  Correctly classified texts:
+    Mean length: 7.0 words
+    Median length: 6.0 words
+  Incorrectly classified texts:
+    Mean length: 7.5 words
+    Median length: 7.0 words
+
+✨ Sample High-Confidence Correct Predictions:
+
+  [1] Confidence: 1.0000
+      True/Pred: Negative (both 0)
+      Text: "sad miss"
+
+  [2] Confidence: 1.0000
+      True/Pred: Negative (both 0)
+      Text: "sad miss h"
+
+  [3] Confidence: 1.0000
+      True/Pred: Negative (both 0)
+      Text: "sick sad lonely"
+
+  [4] Confidence: 1.0000
+      True/Pred: Negative (both 0)
+      Text: "work suck sad del po lost"
+
+  [5] Confidence: 1.0000
+      True/Pred: Negative (both 0)
+      Text: "sad missing"
+
+🔄 Comparing Success Patterns Between Models
+
+======================================================================
+COMPARING SUCCESS PATTERNS: Naive Bayes vs Logistic Regression
+======================================================================
+
+📊 Agreement Analysis:
+  Both correct: 229970 (73.04%)
+  Only Naive Bayes correct: 9950 (3.16%)
+  Only Logistic Regression correct: 14400 (4.57%)
+  Both incorrect: 60525 (19.22%)
+
+🔍 Samples where Naive Bayes succeeds but Logistic Regression fails:
+  [1] True: 0, Naive Bayes: 0, Logistic Regression: 1
+      "say back london go..."
+  [2] True: 0, Naive Bayes: 0, Logistic Regression: 1
+      "mamma hit shoe..."
+  [3] True: 0, Naive Bayes: 0, Logistic Regression: 1
+      "guess reallly like someone like let go meant easier said done tho c..."
+
+✓ Analysis exported to trained_models/phase2/success_analysis.json
+
+======================================================================
+✅ ALL PHASE 2 TASKS COMPLETE!
+======================================================================
