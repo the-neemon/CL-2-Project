@@ -70,10 +70,10 @@ class QualitativeAnalyzer:
         tokens = processed.split()
         
         # Contextual features
-        contextual = self.contextual_extractor.extract_features([text])[0]
+        contextual = self.contextual_extractor.extract_contextual_features(text)
         
         # Lexicon scores
-        lexicon = self.lexicon_scorer.score_tweet(text)
+        lexicon = self.lexicon_scorer.analyze_vader(text)
         
         # Additional semantic patterns
         semantic_info = {
@@ -86,15 +86,15 @@ class QualitativeAnalyzer:
             'negation_contexts': self._find_negation_contexts(text),
             'intensifier_count': contextual['intensifier_count'],
             'intensifiers_found': self._find_intensifiers(text),
-            'all_caps_count': contextual['all_caps_count'],
-            'exclamation_count': contextual['exclamation_count'],
-            'question_count': contextual['question_count'],
+            'all_caps_count': contextual.get('caps_words_count', 0),
+            'exclamation_count': contextual.get('exclamation_count', 0),
+            'question_count': contextual.get('question_count', 0),
             
             # Lexicon scores
             'vader_compound': lexicon['vader_compound'],
-            'vader_positive': lexicon['vader_pos'],
-            'vader_negative': lexicon['vader_neg'],
-            'vader_neutral': lexicon['vader_neu'],
+            'vader_positive': lexicon['vader_positive'],
+            'vader_negative': lexicon['vader_negative'],
+            'vader_neutral': lexicon['vader_neutral'],
             
             # Emotional indicators
             'has_strong_positive': lexicon['vader_compound'] > 0.5,

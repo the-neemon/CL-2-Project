@@ -446,3 +446,38 @@ class FeatureExtractionPipeline:
         }
         
         return info
+    
+    def fit_transform(self, texts: List[str], max_features: int = 5000) -> np.ndarray:
+        """
+        Fit the pipeline on texts and transform them to feature vectors.
+        Convenience method for cross-domain validation.
+        
+        Args:
+            texts: List of text samples
+            max_features: Maximum number of TF-IDF features
+            
+        Returns:
+            Feature matrix [n_samples, n_features]
+        """
+        # Update config with max_features
+        self.config['traditional_features']['max_features'] = max_features
+        
+        # Extract features with fitting
+        features = self.extract_all_features(texts, fit_vectorizers=True, return_dict=False)
+        
+        return features
+    
+    def transform(self, texts: List[str]) -> np.ndarray:
+        """
+        Transform texts to feature vectors using already fitted pipeline.
+        
+        Args:
+            texts: List of text samples
+            
+        Returns:
+            Feature matrix [n_samples, n_features]
+        """
+        # Extract features without fitting
+        features = self.extract_all_features(texts, fit_vectorizers=False, return_dict=False)
+        
+        return features

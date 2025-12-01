@@ -757,3 +757,53 @@ class FeatureAblationStudy:
             
         except ImportError:
             print("Matplotlib not available. Install it to create visualizations.")
+
+class ModelEvaluator:
+    """
+    Utility class for evaluating models with consistent metrics.
+    Useful for cross-domain validation and qualitative analysis.
+    """
+    
+    def calculate_metrics(self, y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
+        """
+        Calculate standard classification metrics.
+        
+        Args:
+            y_true: True labels
+            y_pred: Predicted labels
+            
+        Returns:
+            Dictionary with accuracy, precision, recall, f1_score
+        """
+        return {
+            'accuracy': float(accuracy_score(y_true, y_pred)),
+            'precision': float(precision_score(y_true, y_pred, average='weighted', zero_division=0)),
+            'recall': float(recall_score(y_true, y_pred, average='weighted', zero_division=0)),
+            'f1_score': float(f1_score(y_true, y_pred, average='weighted', zero_division=0))
+        }
+    
+    def get_confusion_matrix(self, y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+        """
+        Get confusion matrix.
+        
+        Args:
+            y_true: True labels
+            y_pred: Predicted labels
+            
+        Returns:
+            Confusion matrix
+        """
+        return confusion_matrix(y_true, y_pred)
+    
+    def get_classification_report(self, y_true: np.ndarray, y_pred: np.ndarray) -> str:
+        """
+        Get detailed classification report.
+        
+        Args:
+            y_true: True labels
+            y_pred: Predicted labels
+            
+        Returns:
+            Classification report string
+        """
+        return classification_report(y_true, y_pred, zero_division=0)

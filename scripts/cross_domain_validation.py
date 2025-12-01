@@ -18,7 +18,6 @@ import pandas as pd
 from pathlib import Path
 from typing import Dict, List, Tuple, Any
 from datetime import datetime
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -27,7 +26,7 @@ sys.path.insert(0, str(project_root))
 from preprocessing.data_loader import SentimentDataLoader
 from preprocessing.preprocessing import TweetPreprocessor
 from features.feature_pipeline import FeatureExtractionPipeline
-from models.traditional_models import SentimentClassifier
+from models.traditional_models import SentimentClassifier, ModelEvaluator
 
 
 class CrossDomainValidator:
@@ -209,6 +208,8 @@ class CrossDomainValidator:
             'timestamp': datetime.now().isoformat()
         }
         
+        evaluator = ModelEvaluator()
+        
         for model_name, model_type, params in models_config:
             print(f"\n{'='*60}")
             print(f"Model: {model_name}")
@@ -222,12 +223,7 @@ class CrossDomainValidator:
             # Evaluate on source domain (in-domain performance)
             print(f"\nIn-domain evaluation (source -> source):")
             y_pred_source = classifier.predict(X_source)
-            source_metrics = {
-                'accuracy': accuracy_score(y_source, y_pred_source),
-                'precision': precision_score(y_source, y_pred_source, average='weighted'),
-                'recall': recall_score(y_source, y_pred_source, average='weighted'),
-                'f1_score': f1_score(y_source, y_pred_source, average='weighted')
-            }
+            source_metrics = evaluator.calculate_metrics(y_source, y_pred_source)
             
             print(f"  Accuracy:  {source_metrics['accuracy']:.4f}")
             print(f"  Precision: {source_metrics['precision']:.4f}")
@@ -237,12 +233,7 @@ class CrossDomainValidator:
             # Evaluate on target domain (cross-domain performance)
             print(f"\nCross-domain evaluation (source -> target):")
             y_pred_target = classifier.predict(X_target)
-            target_metrics = {
-                'accuracy': accuracy_score(y_target, y_pred_target),
-                'precision': precision_score(y_target, y_pred_target, average='weighted'),
-                'recall': recall_score(y_target, y_pred_target, average='weighted'),
-                'f1_score': f1_score(y_target, y_pred_target, average='weighted')
-            }
+            target_metrics = evaluator.calculate_metrics(y_target, y_pred_target)
             
             print(f"  Accuracy:  {target_metrics['accuracy']:.4f}")
             print(f"  Precision: {target_metrics['precision']:.4f}")

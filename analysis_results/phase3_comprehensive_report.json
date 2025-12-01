@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "timestamp": "2025-12-02T00:58:30.446109",
+    "phase": "Phase 3: Validation & Qualitative Analysis",
+    "source_domain": "Sentiment140",
+    "target_domain": "Twitter US Airline Sentiment"
+  },
+  "cross_domain_validation": {
+    "best_model": "Naive Bayes",
+    "best_f1_score": 0.7125899991021686,
+    "model_comparison": [
+      {
+        "model_name": "Logistic Regression",
+        "source_f1": 0.5564296108666247,
+        "target_f1": 0.6594832635149799,
+        "domain_gap": -0.1030536526483552
+      },
+      {
+        "model_name": "Logistic Regression (L1)",
+        "source_f1": 0.556429932816935,
+        "target_f1": 0.6588597321386092,
+        "domain_gap": -0.10242979932167418
+      },
+      {
+        "model_name": "Naive Bayes",
+        "source_f1": 0.5486329948306125,
+        "target_f1": 0.7125899991021686,
+        "domain_gap": -0.16395700427155613
+      },
+      {
+        "model_name": "Random Forest",
+        "source_f1": 0.7513506352194962,
+        "target_f1": 0.6396742590477631,
+        "domain_gap": 0.1116763761717331
+      }
+    ]
+  },
+  "qualitative_analysis": {
+    "accuracy": 0.6229205175600739,
+    "total_samples": 11361,
+    "correct_predictions": 7077,
+    "insights": [
+      "Overall Accuracy: 62.29% (7077/11361)",
+      "Correctly classified tweets have 0.18 more negations on average, suggesting the model handles negation well.",
+      "VADER sentiment scores are lower for correctly classified tweets (diff: -0.038)."
+    ],
+    "semantic_patterns": {
+      "correct_predictions": {
+        "sample_size": 7077,
+        "avg_negations": 1.258,
+        "avg_intensifiers": 0.085,
+        "avg_vader_score": 0.24686909999999998,
+        "avg_text_length": 9.708,
+        "strong_positive_ratio": 0.346,
+        "strong_negative_ratio": 0.091,
+        "neutral_ratio": 0.09
+      },
+      "incorrect_predictions": {
+        "sample_size": 4284,
+        "avg_negations": 1.077,
+        "avg_intensifiers": 0.089,
+        "avg_vader_score": 0.2849597,
+        "avg_text_length": 9.125,
+        "strong_positive_ratio": 0.38,
+        "strong_negative_ratio": 0.075,
+        "neutral_ratio": 0.094
+      },
+      "comparison": {
+        "avg_negations": {
+          "correct": 1.258,
+          "incorrect": 1.077,
+          "difference": 0.18100000000000005
+        },
+        "avg_intensifiers": {
+          "correct": 0.085,
+          "incorrect": 0.089,
+          "difference": -0.00399999999999999
+        },
+        "avg_vader_score": {
+          "correct": 0.24686909999999998,
+          "incorrect": 0.2849597,
+          "difference": -0.0380906
+        },
+        "avg_text_length": {
+          "correct": 9.708,
+          "incorrect": 9.125,
+          "difference": 0.5830000000000002
+        }
+      }
+    }
+  },
+  "key_findings": [
+    "Best cross-domain model: Naive Bayes with F1-score of 0.7126",
+    "Domain gap: -0.1031 (source: 0.5564, target: 0.6595)",
+    "Overall Accuracy: 62.29% (7077/11361)",
+    "Correctly classified tweets have 0.18 more negations on average, suggesting the model handles negation well.",
+    "VADER sentiment scores are lower for correctly classified tweets (diff: -0.038).",
+    "Negation handling: Good (diff: +0.18)"
+  ]
+}

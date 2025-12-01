@@ -26,7 +26,7 @@ sys.path.insert(0, str(project_root))
 from preprocessing.data_loader import SentimentDataLoader
 from preprocessing.preprocessing import TweetPreprocessor
 from features.feature_pipeline import FeatureExtractionPipeline
-from models.traditional_models import SentimentClassifier
+from models.traditional_models import SentimentClassifier, ModelEvaluator
 from scripts.cross_domain_validation import CrossDomainValidator
 from scripts.qualitative_analysis import QualitativeAnalyzer
 

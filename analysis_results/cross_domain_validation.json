@@ -1,0 +1,87 @@
+{
+  "cross_domain_results": [
+    {
+      "model_name": "Logistic Regression",
+      "model_type": "logistic_regression",
+      "model_params": {},
+      "source_metrics": {
+        "accuracy": 0.5564257028112449,
+        "precision": 0.5564572565810277,
+        "recall": 0.5564257028112449,
+        "f1_score": 0.5564296108666247
+      },
+      "target_metrics": {
+        "accuracy": 0.6229205175600739,
+        "precision": 0.7502261169688048,
+        "recall": 0.6229205175600739,
+        "f1_score": 0.6594832635149799
+      },
+      "domain_gap_f1": -0.1030536526483552
+    },
+    {
+      "model_name": "Logistic Regression (L1)",
+      "model_type": "logistic_regression",
+      "model_params": {
+        "penalty": "l1",
+        "solver": "liblinear"
+      },
+      "source_metrics": {
+        "accuracy": 0.5564257028112449,
+        "precision": 0.5564549051396097,
+        "recall": 0.5564257028112449,
+        "f1_score": 0.556429932816935
+      },
+      "target_metrics": {
+        "accuracy": 0.6222163541941731,
+        "precision": 0.7497839203991398,
+        "recall": 0.6222163541941731,
+        "f1_score": 0.6588597321386092
+      },
+      "domain_gap_f1": -0.10242979932167418
+    },
+    {
+      "model_name": "Naive Bayes",
+      "model_type": "naive_bayes",
+      "model_params": {},
+      "source_metrics": {
+        "accuracy": 0.551355421686747,
+        "precision": 0.5520754062615529,
+        "recall": 0.551355421686747,
+        "f1_score": 0.5486329948306125
+      },
+      "target_metrics": {
+        "accuracy": 0.6897280168999208,
+        "precision": 0.7525647576970528,
+        "recall": 0.6897280168999208,
+        "f1_score": 0.7125899991021686
+      },
+      "domain_gap_f1": -0.16395700427155613
+    },
+    {
+      "model_name": "Random Forest",
+      "model_type": "random_forest",
+      "model_params": {
+        "n_estimators": 100,
+        "max_depth": 20
+      },
+      "source_metrics": {
+        "accuracy": 0.7522590361445783,
+        "precision": 0.7566374415307167,
+        "recall": 0.7522590361445783,
+        "f1_score": 0.7513506352194962
+      },
+      "target_metrics": {
+        "accuracy": 0.6006513511134584,
+        "precision": 0.7349114978849749,
+        "recall": 0.6006513511134584,
+        "f1_score": 0.6396742590477631
+      },
+      "domain_gap_f1": 0.1116763761717331
+    }
+  ],
+  "source_domain": "Sentiment140",
+  "target_domain": "Twitter US Airline Sentiment",
+  "timestamp": "2025-12-02T00:58:07.618486",
+  "best_model": "Naive Bayes",
+  "best_f1_score": 0.7125899991021686
+}
