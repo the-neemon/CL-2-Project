@@ -4,9 +4,6 @@ Phase 3: Cross-Domain Validation & Qualitative Analysis
 This script performs:
 1. Cross-domain validation: Train on Sentiment140, test on Twitter US Airline Sentiment
 2. Qualitative analysis: Manual inspection of representative tweets with semantic interpretation
-
-Author: Phase 3 Implementation
-Date: November 2025
 """
 
 import os
