@@ -357,6 +357,52 @@ def main():
         output_dir = Path('trained_models/phase2')
         error_analyzer.export_analysis(output_dir / 'error_analysis.json')
     
+    # Generate Confusion Matrices
+    print("\n" + "="*70)
+    print("📊 GENERATING CONFUSION MATRICES")
+    print("="*70)
+    
+    if not args.no_save:
+        output_dir = Path('trained_models/phase2')
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        for model_name, model in results['models'].items():
+            print(f"\n[{model_name}]")
+            
+            # Save confusion matrix data (JSON)
+            cm_json_path = output_dir / f'confusion_matrix_{model_name.lower().replace(" ", "_")}.json'
+            model.save_confusion_matrix_data(
+                results['X_test'],
+                results['y_test'],
+                str(cm_json_path)
+            )
+            
+            # Try to plot and save confusion matrix (PNG)
+            try:
+                cm_plot_path = output_dir / f'confusion_matrix_{model_name.lower().replace(" ", "_")}.png'
+                model.plot_confusion_matrix(
+                    results['X_test'],
+                    results['y_test'],
+                    save_path=str(cm_plot_path),
+                    normalize=False,
+                    title=f'Confusion Matrix - {model_name}'
+                )
+                
+                # Also save normalized version
+                cm_norm_path = output_dir / f'confusion_matrix_{model_name.lower().replace(" ", "_")}_normalized.png'
+                model.plot_confusion_matrix(
+                    results['X_test'],
+                    results['y_test'],
+                    save_path=str(cm_norm_path),
+                    normalize=True,
+                    title=f'Confusion Matrix - {model_name} (Normalized)'
+                )
+            except Exception as e:
+                print(f"  Note: Could not create plot visualization: {e}")
+                print(f"  (This is normal if matplotlib is not available)")
+        
+        print(f"\n✓ All confusion matrices saved to {output_dir}")
+    
     print("\n" + "="*70)
     print("✅ ALL PHASE 2 & 3 TASKS COMPLETE!")
     print("="*70)

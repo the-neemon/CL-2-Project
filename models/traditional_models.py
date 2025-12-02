@@ -222,6 +222,143 @@ class SentimentClassifier:
         y_pred = self.predict(X)
         return confusion_matrix(y, y_pred)
     
+    def plot_confusion_matrix(self,
+                             X: np.ndarray,
+                             y: np.ndarray,
+                             save_path: Optional[str] = None,
+                             normalize: bool = False,
+                             title: Optional[str] = None) -> None:
+        """
+        Plot confusion matrix with visualization.
+        
+        Args:
+            X: Feature matrix
+            y: True labels
+            save_path: Optional path to save the plot
+            normalize: Whether to normalize the confusion matrix
+            title: Custom title for the plot
+        """
+        if not self.is_fitted:
+            raise ValueError("Model must be fitted before plotting")
+        
+        try:
+            import matplotlib.pyplot as plt
+            import seaborn as sns
+            
+            # Get predictions and confusion matrix
+            y_pred = self.predict(X)
+            cm = confusion_matrix(y, y_pred)
+            
+            # Normalize if requested
+            if normalize:
+                cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+                fmt = '.2%'
+                cm_display = cm * 100  # Convert to percentage
+            else:
+                fmt = 'd'
+                cm_display = cm
+            
+            # Create figure
+            plt.figure(figsize=(10, 8))
+            
+            # Create heatmap
+            sns.heatmap(cm_display, annot=True, fmt=fmt, cmap='Blues',
+                       xticklabels=self.classes_,
+                       yticklabels=self.classes_,
+                       cbar_kws={'label': 'Percentage' if normalize else 'Count'})
+            
+            # Labels and title
+            plt.ylabel('True Label', fontsize=12)
+            plt.xlabel('Predicted Label', fontsize=12)
+            
+            if title is None:
+                title = f'Confusion Matrix - {self.model_type.replace("_", " ").title()}'
+                if normalize:
+                    title += ' (Normalized)'
+            
+            plt.title(title, fontsize=14, fontweight='bold')
+            
+            # Add accuracy annotation
+            accuracy = accuracy_score(y, y_pred)
+            plt.text(0.5, -0.15, f'Overall Accuracy: {accuracy:.2%}',
+                    ha='center', transform=plt.gca().transAxes,
+                    fontsize=11, fontweight='bold')
+            
+            plt.tight_layout()
+            
+            # Save if path provided
+            if save_path:
+                Path(save_path).parent.mkdir(parents=True, exist_ok=True)
+                plt.savefig(save_path, dpi=300, bbox_inches='tight')
+                print(f"✓ Confusion matrix saved to {save_path}")
+            
+            plt.show()
+            
+        except ImportError:
+            print("Matplotlib/Seaborn not available. Install them to create visualizations.")
+            print("Showing text-based confusion matrix instead:")
+            cm = self.get_confusion_matrix(X, y)
+            print("\nConfusion Matrix:")
+            print(cm)
+    
+    def save_confusion_matrix_data(self,
+                                   X: np.ndarray,
+                                   y: np.ndarray,
+                                   save_path: str) -> None:
+        """
+        Save confusion matrix data to JSON file.
+        
+        Args:
+            X: Feature matrix
+            y: True labels
+            save_path: Path to save JSON file
+        """
+        if not self.is_fitted:
+            raise ValueError("Model must be fitted before saving confusion matrix")
+        
+        import json
+        
+        y_pred = self.predict(X)
+        cm = confusion_matrix(y, y_pred)
+        
+        # Calculate per-class metrics
+        cm_data = {
+            'confusion_matrix': cm.tolist(),
+            'classes': self.classes_.tolist() if hasattr(self.classes_, 'tolist') else list(self.classes_),
+            'model_type': self.model_type,
+            'accuracy': float(accuracy_score(y, y_pred)),
+            'per_class_metrics': {}
+        }
+        
+        # Calculate precision, recall, f1 per class
+        for i, class_label in enumerate(self.classes_):
+            tp = cm[i, i]
+            fp = cm[:, i].sum() - tp
+            fn = cm[i, :].sum() - tp
+            tn = cm.sum() - (tp + fp + fn)
+            
+            precision = tp / (tp + fp) if (tp + fp) > 0 else 0
+            recall = tp / (tp + fn) if (tp + fn) > 0 else 0
+            f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
+            
+            cm_data['per_class_metrics'][str(class_label)] = {
+                'true_positives': int(tp),
+                'false_positives': int(fp),
+                'false_negatives': int(fn),
+                'true_negatives': int(tn),
+                'precision': float(precision),
+                'recall': float(recall),
+                'f1_score': float(f1),
+                'support': int(cm[i, :].sum())
+            }
+        
+        # Save to JSON
+        Path(save_path).parent.mkdir(parents=True, exist_ok=True)
+        with open(save_path, 'w') as f:
+            json.dump(cm_data, f, indent=2)
+        
+        print(f"✓ Confusion matrix data saved to {save_path}")
+    
     def save(self, filepath: str) -> None:
         """
         Save trained model to disk.

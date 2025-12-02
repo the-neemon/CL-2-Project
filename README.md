@@ -99,6 +99,7 @@ CL-2-Project/
 - ✅ Random Forest with feature ablation
 - ✅ Random Forest regularization for better generalization
 - ✅ 5-fold cross-validation
+- ✅ Confusion matrices (visual + JSON data)
 - ✅ Best model identification (F1-score based)
 - ✅ Success pattern analysis
 - ✅ Memory optimization (sparse matrices)
@@ -166,6 +167,12 @@ error_analyzer = ErrorAnalyzer()
 error_results = error_analyzer.analyze_errors(
     model=model, X=X_test, y_true=y_test, texts=test_texts
 )
+
+# Generate confusion matrix
+model.plot_confusion_matrix(X_test, y_test, save_path='cm.png')
+
+# Save confusion matrix data
+model.save_confusion_matrix_data(X_test, y_test, 'cm_data.json')
 ```
 
 ---
@@ -228,10 +235,13 @@ vaderSentiment>=3.3.2
 
 **Model Outputs:**
 - `trained_models/phase2/` - Trained models (.pkl), results (CSV/JSON)
+- `trained_models/phase2/confusion_matrix_*.json` - Confusion matrix data
+- `trained_models/phase2/confusion_matrix_*.png` - Confusion matrix visualizations
 
 **Analysis Results:**
 - `comparative_results/` - Traditional vs semantic comparison
 - `analysis_results/` - Cross-domain validation, qualitative analysis
+- `analysis_results/confusion_matrices/` - Cross-domain confusion matrices
 
 **Documentation:**
 - `PROJECT_COMPLETION_SUMMARY.md` - Full project completion report

@@ -259,6 +259,37 @@ class CrossDomainValidator:
             }
             
             results['cross_domain_results'].append(model_results)
+            
+            # Save confusion matrices for target domain
+            cm_dir = self.output_dir / 'confusion_matrices'
+            cm_dir.mkdir(exist_ok=True)
+            
+            model_name_clean = model_name.lower().replace(' ', '_').replace('(', '').replace(')', '')
+            
+            # Save confusion matrix data (JSON)
+            cm_json_path = cm_dir / f'cm_target_{model_name_clean}.json'
+            classifier.save_confusion_matrix_data(X_target, y_target, str(cm_json_path))
+            
+            # Try to save confusion matrix plot
+            try:
+                cm_plot_path = cm_dir / f'cm_target_{model_name_clean}.png'
+                classifier.plot_confusion_matrix(
+                    X_target, y_target,
+                    save_path=str(cm_plot_path),
+                    normalize=False,
+                    title=f'{model_name} - Target Domain'
+                )
+                
+                # Normalized version
+                cm_norm_path = cm_dir / f'cm_target_{model_name_clean}_normalized.png'
+                classifier.plot_confusion_matrix(
+                    X_target, y_target,
+                    save_path=str(cm_norm_path),
+                    normalize=True,
+                    title=f'{model_name} - Target Domain (Normalized)'
+                )
+            except Exception as e:
+                print(f"  Note: Could not create confusion matrix plot: {e}")
         
         # Find best model
         best_model_idx = max(
