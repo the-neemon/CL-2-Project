@@ -1,0 +1,40 @@
+{
+  "confusion_matrix": [
+    [
+      5269,
+      3804
+    ],
+    [
+      830,
+      1458
+    ]
+  ],
+  "classes": [
+    0,
+    1
+  ],
+  "model_type": "logistic_regression",
+  "accuracy": 0.59211337030191,
+  "per_class_metrics": {
+    "0": {
+      "true_positives": 5269,
+      "false_positives": 830,
+      "false_negatives": 3804,
+      "true_negatives": 1458,
+      "precision": 0.8639121167404492,
+      "recall": 0.5807340460707594,
+      "f1_score": 0.6945689427893488,
+      "support": 9073
+    },
+    "1": {
+      "true_positives": 1458,
+      "false_positives": 3804,
+      "false_negatives": 830,
+      "true_negatives": 5269,
+      "precision": 0.27708095781071834,
+      "recall": 0.6372377622377622,
+      "f1_score": 0.38622516556291386,
+      "support": 2288
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "confusion_matrix": [
+    [
+      6102,
+      2971
+    ],
+    [
+      1009,
+      1279
+    ]
+  ],
+  "classes": [
+    0,
+    1
+  ],
+  "model_type": "random_forest",
+  "accuracy": 0.6496787254643077,
+  "per_class_metrics": {
+    "0": {
+      "true_positives": 6102,
+      "false_positives": 1009,
+      "false_negatives": 2971,
+      "true_negatives": 1279,
+      "precision": 0.8581071579243426,
+      "recall": 0.6725449134795547,
+      "f1_score": 0.7540781018289668,
+      "support": 9073
+    },
+    "1": {
+      "true_positives": 1279,
+      "false_positives": 2971,
+      "false_negatives": 1009,
+      "true_negatives": 6102,
+      "precision": 0.3009411764705882,
+      "recall": 0.5590034965034965,
+      "f1_score": 0.3912511471397981,
+      "support": 2288
+    }
+  }
+}

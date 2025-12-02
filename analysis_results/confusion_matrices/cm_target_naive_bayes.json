@@ -1,0 +1,40 @@
+{
+  "confusion_matrix": [
+    [
+      5314,
+      3759
+    ],
+    [
+      806,
+      1482
+    ]
+  ],
+  "classes": [
+    0,
+    1
+  ],
+  "model_type": "naive_bayes",
+  "accuracy": 0.5981867793328052,
+  "per_class_metrics": {
+    "0": {
+      "true_positives": 5314,
+      "false_positives": 806,
+      "false_negatives": 3759,
+      "true_negatives": 1482,
+      "precision": 0.8683006535947713,
+      "recall": 0.5856938168191337,
+      "f1_score": 0.6995326795234647,
+      "support": 9073
+    },
+    "1": {
+      "true_positives": 1482,
+      "false_positives": 3759,
+      "false_negatives": 806,
+      "true_negatives": 5314,
+      "precision": 0.28277046365197483,
+      "recall": 0.6477272727272727,
+      "f1_score": 0.39367777925355296,
+      "support": 2288
+    }
+  }
+}

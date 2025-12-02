@@ -5,18 +5,18 @@
       "model_type": "logistic_regression",
       "model_params": {},
       "source_metrics": {
-        "accuracy": 0.5564257028112449,
-        "precision": 0.5564572565810277,
-        "recall": 0.5564257028112449,
-        "f1_score": 0.5564296108666247
+        "accuracy": 0.5563233167282661,
+        "precision": 0.5564806472601243,
+        "recall": 0.5563233167282661,
+        "f1_score": 0.5559462185748906
       },
       "target_metrics": {
-        "accuracy": 0.6229205175600739,
-        "precision": 0.7502261169688048,
-        "recall": 0.6229205175600739,
-        "f1_score": 0.6594832635149799
+        "accuracy": 0.59211337030191,
+        "precision": 0.7457297655714303,
+        "recall": 0.59211337030191,
+        "f1_score": 0.6324713666698097
       },
-      "domain_gap_f1": -0.1030536526483552
+      "domain_gap_f1": -0.07652514809491917
     },
     {
       "model_name": "Logistic Regression (L1)",
@@ -26,62 +26,85 @@
         "solver": "liblinear"
       },
       "source_metrics": {
-        "accuracy": 0.5564257028112449,
-        "precision": 0.5564549051396097,
-        "recall": 0.5564257028112449,
-        "f1_score": 0.556429932816935
+        "accuracy": 0.5566848786758798,
+        "precision": 0.5568259619905718,
+        "recall": 0.5566848786758798,
+        "f1_score": 0.5563455821630269
       },
       "target_metrics": {
-        "accuracy": 0.6222163541941731,
-        "precision": 0.7497839203991398,
-        "recall": 0.6222163541941731,
-        "f1_score": 0.6588597321386092
+        "accuracy": 0.5923774315641229,
+        "precision": 0.7443588440746673,
+        "recall": 0.5923774315641229,
+        "f1_score": 0.6326980325715431
       },
-      "domain_gap_f1": -0.10242979932167418
+      "domain_gap_f1": -0.07635245040851624
     },
     {
       "model_name": "Naive Bayes",
       "model_type": "naive_bayes",
       "model_params": {},
       "source_metrics": {
-        "accuracy": 0.551355421686747,
-        "precision": 0.5520754062615529,
-        "recall": 0.551355421686747,
-        "f1_score": 0.5486329948306125
+        "accuracy": 0.5542945524666559,
+        "precision": 0.5545475514700857,
+        "recall": 0.5542945524666559,
+        "f1_score": 0.5536876367391584
       },
       "target_metrics": {
-        "accuracy": 0.6897280168999208,
-        "precision": 0.7525647576970528,
-        "recall": 0.6897280168999208,
-        "f1_score": 0.7125899991021686
+        "accuracy": 0.5981867793328052,
+        "precision": 0.7503803055101732,
+        "recall": 0.5981867793328052,
+        "f1_score": 0.637936340132781
       },
-      "domain_gap_f1": -0.16395700427155613
+      "domain_gap_f1": -0.08424870339362256
     },
     {
-      "model_name": "Random Forest",
+      "model_name": "Random Forest (Original)",
       "model_type": "random_forest",
       "model_params": {
         "n_estimators": 100,
         "max_depth": 20
       },
       "source_metrics": {
-        "accuracy": 0.7522590361445783,
-        "precision": 0.7566374415307167,
-        "recall": 0.7522590361445783,
-        "f1_score": 0.7513506352194962
+        "accuracy": 0.7052667523702394,
+        "precision": 0.7069697102852833,
+        "recall": 0.7052667523702394,
+        "f1_score": 0.704634183205897
       },
       "target_metrics": {
-        "accuracy": 0.6006513511134584,
-        "precision": 0.7349114978849749,
-        "recall": 0.6006513511134584,
-        "f1_score": 0.6396742590477631
+        "accuracy": 0.6010914532171464,
+        "precision": 0.7387891550560512,
+        "recall": 0.6010914532171464,
+        "f1_score": 0.6402236577689558
       },
-      "domain_gap_f1": 0.1116763761717331
+      "domain_gap_f1": 0.06441052543694115
+    },
+    {
+      "model_name": "Random Forest (Regularized)",
+      "model_type": "random_forest",
+      "model_params": {
+        "n_estimators": 100,
+        "max_depth": 10,
+        "min_samples_split": 20,
+        "min_samples_leaf": 10
+      },
+      "source_metrics": {
+        "accuracy": 0.5816326530612245,
+        "precision": 0.5816635579974343,
+        "recall": 0.5816326530612245,
+        "f1_score": 0.5816067033783732
+      },
+      "target_metrics": {
+        "accuracy": 0.6496787254643077,
+        "precision": 0.7458990982846815,
+        "recall": 0.6496787254643077,
+        "f1_score": 0.6810081192280675
+      },
+      "domain_gap_f1": -0.09940141584969431
     }
   ],
   "source_domain": "Sentiment140",
   "target_domain": "Twitter US Airline Sentiment",
-  "timestamp": "2025-12-02T00:58:07.618486",
-  "best_model": "Naive Bayes",
-  "best_f1_score": 0.7125899991021686
+  "timestamp": "2025-12-02T18:42:12.383872",
+  "best_model": "Random Forest (Regularized)",
+  "best_f1_score": 0.6810081192280675
 }
