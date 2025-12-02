@@ -22,7 +22,8 @@ from datetime import datetime
 # Add parent directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from preprocessing.text_preprocessing import load_sentiment140
+from preprocessing.data_loader import SentimentDataLoader
+from preprocessing.preprocessing import TweetPreprocessor
 from features.traditional_features import TraditionalFeatureExtractor
 from features.feature_pipeline import FeatureExtractionPipeline
 from models.traditional_models import SentimentClassifier, compare_models
@@ -52,10 +53,26 @@ def main():
     
     # Load and preprocess data
     print(f"\nLoading {args.dataset} dataset...")
-    X_train_text, y_train, X_test_text, y_test = load_sentiment140(
-        sample_size=args.sample_size,
-        preprocess=True
-    )
+    
+    loader = SentimentDataLoader(dataset_dir='datasets')
+    preprocessor = TweetPreprocessor(preserve_case=False, reduce_len=True)
+    
+    if args.dataset == 'sentiment140':
+        df = loader.load_sentiment140(sample_size=args.sample_size if args.sample_size > 0 else None)
+    else:  # airline
+        df = loader.load_airline_sentiment()
+        if args.sample_size > 0:
+            df = df.sample(n=min(args.sample_size, len(df)), random_state=42)
+    
+    # Split and preprocess
+    train_df, test_df = loader.create_train_test_split(df, test_size=0.2, stratify=True)
+    train_df = loader.preprocess_dataframe(train_df, preprocessor)
+    test_df = loader.preprocess_dataframe(test_df, preprocessor)
+    
+    X_train_text = train_df['processed_text'].values
+    y_train = train_df['sentiment'].values
+    X_test_text = test_df['processed_text'].values
+    y_test = test_df['sentiment'].values
     
     print(f"✓ Loaded {len(X_train_text)} training samples")
     print(f"✓ Loaded {len(X_test_text)} test samples")
@@ -102,7 +119,7 @@ def main():
         print(f"  Accuracy: {metrics['accuracy']:.4f}")
         print(f"  Precision: {metrics['precision']:.4f}")
         print(f"  Recall: {metrics['recall']:.4f}")
-        print(f"  F1-score: {metrics['f1']:.4f}")
+        print(f"  F1-score: {metrics['f1_score']:.4f}")
     
     # ===================================================================
     # EXPERIMENT 2: Traditional + Semantic Features
@@ -113,13 +130,17 @@ def main():
     
     print("\nInitializing feature pipeline with semantic features...")
     try:
-        pipeline = FeatureExtractionPipeline(
-            ngram_range=(1, 2),
-            max_features=5000,
-            init_contextual=True,
-            init_semantic=True,
-            init_lexicon=True
-        )
+        # Create config with semantic features enabled
+        config = {
+            'traditional_features': {
+                'enabled': True,
+                'max_features': 5000
+            },
+            'contextual_features': {'enabled': True},
+            'semantic_features': {'enabled': True},
+            'lexicon_features': {'enabled': True}
+        }
+        pipeline = FeatureExtractionPipeline(config=config)
         
         print("\nExtracting all features...")
         X_train_full = pipeline.fit_transform(X_train_text)
@@ -149,10 +170,10 @@ def main():
             print(f"  Accuracy: {metrics['accuracy']:.4f}")
             print(f"  Precision: {metrics['precision']:.4f}")
             print(f"  Recall: {metrics['recall']:.4f}")
-            print(f"  F1-score: {metrics['f1']:.4f}")
+            print(f"  F1-score: {metrics['f1_score']:.4f}")
         
         semantic_features_available = True
-        
+    
     except Exception as e:
         print(f"\n⚠️  Could not initialize semantic features: {e}")
         print("Continuing with traditional features only...")
@@ -178,7 +199,7 @@ def main():
             'Accuracy': trad_metrics['accuracy'],
             'Precision': trad_metrics['precision'],
             'Recall': trad_metrics['recall'],
-            'F1-Score': trad_metrics['f1']
+            'F1-Score': trad_metrics['f1_score']
         }
         comparison_data.append(row)
         
@@ -190,7 +211,7 @@ def main():
                 'Accuracy': full_metrics['accuracy'],
                 'Precision': full_metrics['precision'],
                 'Recall': full_metrics['recall'],
-                'F1-Score': full_metrics['f1']
+                'F1-Score': full_metrics['f1_score']
             }
             comparison_data.append(row)
             
@@ -201,7 +222,7 @@ def main():
                 'Accuracy': (full_metrics['accuracy'] - trad_metrics['accuracy']) * 100,
                 'Precision': (full_metrics['precision'] - trad_metrics['precision']) * 100,
                 'Recall': (full_metrics['recall'] - trad_metrics['recall']) * 100,
-                'F1-Score': (full_metrics['f1'] - trad_metrics['f1']) * 100
+                'F1-Score': (full_metrics['f1_score'] - trad_metrics['f1_score']) * 100
             }
             comparison_data.append(improvement)
     
@@ -223,26 +244,25 @@ def main():
     print("="*70)
     
     # Analyze best traditional model
-    best_trad_model = max(results_trad.items(), key=lambda x: x[1]['f1'])
+    best_trad_model = max(results_trad.items(), key=lambda x: x[1]['f1_score'])
     best_model_name = best_trad_model[0]
     
-    print(f"\nBest Traditional Model: {best_model_name} (F1={best_trad_model[1]['f1']:.4f})")
+    print(f"\nBest Traditional Model: {best_model_name} (F1={best_trad_model[1]['f1_score']:.4f})")
     
     # Success analysis
     print("\n--- SUCCESS ANALYSIS ---")
     success_analyzer = SuccessAnalyzer()
-    success_analyzer.analyze_correct_predictions(
+    success_results = success_analyzer.analyze_correct_predictions(
         model=models[best_model_name],
-        X=X_train_trad,
-        y_true=y_train,
-        texts=X_train_text,
-        model_name=best_model_name
+        X=X_test_trad,
+        y=y_test,
+        texts=X_test_text
     )
     
     # Error analysis
     print("\n--- ERROR ANALYSIS ---")
     error_analyzer = ErrorAnalyzer()
-    error_analyzer.analyze_errors(
+    error_results = error_analyzer.analyze_errors(
         model=models[best_model_name],
         X=X_test_trad,
         y_true=y_test,

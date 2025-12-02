@@ -1,0 +1,50 @@
+{
+  "Logistic Regression": {
+    "model_name": "Logistic Regression",
+    "total_samples": 597,
+    "incorrect_count": 199,
+    "correct_count": 398,
+    "error_rate": 0.3333333333333333,
+    "accuracy": 0.6666666666666667,
+    "class_analysis": {
+      "0": {
+        "total": 306,
+        "incorrect": 91,
+        "correct": 215,
+        "error_rate": 0.2973856209150327
+      },
+      "1": {
+        "total": 291,
+        "incorrect": 108,
+        "correct": 183,
+        "error_rate": 0.3711340206185567
+      }
+    },
+    "confidence_analysis": {
+      "incorrect_mean": 0.5935261566486625,
+      "incorrect_median": 0.582905850907091,
+      "incorrect_std": 0.06882808674016434,
+      "correct_mean": 0.6565543506184572,
+      "correct_median": 0.64476800793632,
+      "correct_std": 0.10281877424923817,
+      "high_confidence_errors": 0,
+      "high_confidence_error_rate": 0.0
+    },
+    "text_analysis": {
+      "incorrect_length_mean": 7.658291457286432,
+      "incorrect_length_median": 7.0,
+      "correct_length_mean": 6.766331658291457,
+      "correct_length_median": 6.0
+    },
+    "confusion_patterns": {
+      "True_0_Pred_1": {
+        "count": 91,
+        "percentage": 15.242881072026801
+      },
+      "True_1_Pred_0": {
+        "count": 108,
+        "percentage": 18.090452261306535
+      }
+    }
+  }
+}
