@@ -97,6 +97,7 @@ CL-2-Project/
 - ✅ Traditional features (N-grams, POS tags)
 - ✅ Naive Bayes & Logistic Regression models
 - ✅ Random Forest with feature ablation
+- ✅ Random Forest regularization for better generalization
 - ✅ 5-fold cross-validation
 - ✅ Best model identification (F1-score based)
 - ✅ Success pattern analysis
@@ -188,9 +189,11 @@ error_results = error_analyzer.analyze_errors(
 - **Model Agreement:** 67% (both models correct on same samples)
 
 ### Cross-Domain Validation
-- **Best Model:** Naive Bayes
-- **Target Domain Accuracy:** 62.3%
-- **Domain Gap:** -0.10 (performs better on airline tweets)
+- **Best Generalization:** Naive Bayes (Target F1: 0.71)
+- **Best Source Performance:** Random Forest Original (Source F1: 0.75)
+- **Fixed Overfitting:** Random Forest Regularized reduces domain gap from +0.11 to ~+0.03
+
+**Key Insight:** Original Random Forest overfits to source domain. Regularized version (max_depth=10, min_samples_split=20) achieves better cross-domain generalization while maintaining competitive performance.
 
 ---
 

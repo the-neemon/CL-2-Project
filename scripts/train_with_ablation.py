@@ -192,11 +192,18 @@ def compare_all_models(X_train: np.ndarray,
             C=1.0,
             max_iter=1000
         ),
-        'Random Forest': SentimentClassifier(
+        'Random Forest (Original)': SentimentClassifier(
             model_type='random_forest',
             n_estimators=100,
-            max_depth=None,
+            max_depth=20,
             min_samples_split=2
+        ),
+        'Random Forest (Regularized)': SentimentClassifier(
+            model_type='random_forest',
+            n_estimators=100,
+            max_depth=10,
+            min_samples_split=20,
+            min_samples_leaf=10
         )
     }
     

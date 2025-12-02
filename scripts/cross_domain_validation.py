@@ -195,7 +195,10 @@ class CrossDomainValidator:
             ('Logistic Regression', 'logistic_regression', {}),
             ('Logistic Regression (L1)', 'logistic_regression', {'penalty': 'l1', 'solver': 'liblinear'}),
             ('Naive Bayes', 'naive_bayes', {}),
-            ('Random Forest', 'random_forest', {'n_estimators': 100, 'max_depth': 20})
+            ('Random Forest (Original)', 'random_forest', {'n_estimators': 100, 'max_depth': 20}),
+            ('Random Forest (Regularized)', 'random_forest', 
+             {'n_estimators': 100, 'max_depth': 10, 'min_samples_split': 20, 
+              'min_samples_leaf': 10})
         ]
         
         results = {
