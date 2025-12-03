@@ -244,7 +244,8 @@ CL-2-Project/
 │   ├── success_analysis.py       # Success analyzer (Naman)
 │   └── error_analysis.py         # Error analyzer (Naman)
 ├── scripts/                       # Execution scripts
-│   ├── main.py                   # Preprocessing pipeline
+│   ├── preprocess_sample.py      # Quick preprocessing samples
+│   ├── preprocess_full_dataset.py # Full dataset preprocessing
 │   ├── train_phase2.py           # Phase 2 training (Naman)
 │   ├── comparative_analysis.py   # Comparative study (Naman)
 │   ├── train_with_ablation.py    # Ablation study (Shrish)
@@ -279,7 +280,7 @@ vaderSentiment>=3.3.2
 
 ### Phase 1: Data Preprocessing
 ```bash
-python scripts/main.py --dataset both --sample-size 10000
+python scripts/preprocess_sample.py --dataset both --sample-size 10000
 ```
 
 ### Phase 2: Model Training

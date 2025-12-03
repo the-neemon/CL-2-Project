@@ -5,7 +5,7 @@ This script demonstrates how to load, preprocess, and prepare the
 Sentiment140 and Airline datasets for sentiment analysis.
 
 Usage:
-    python main.py
+    python scripts/preprocess_sample.py
 
 Author: Naman
 Phase: 1 - Data Preparation

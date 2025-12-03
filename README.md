@@ -32,10 +32,10 @@ pip install -r requirements.txt
 ### Run Preprocessing
 ```bash
 # Process sample dataset
-python scripts/main.py --dataset sentiment140 --sample-size 10000
+python scripts/preprocess_sample.py --dataset sentiment140 --sample-size 10000
 
 # Process full dataset
-python scripts/process_full_data.py
+python scripts/preprocess_full_dataset.py
 ```
 
 ### Train Models (Phase 2)
