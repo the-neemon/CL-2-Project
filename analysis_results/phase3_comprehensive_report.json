@@ -1,100 +1,106 @@
 {
   "metadata": {
-    "timestamp": "2025-12-02T00:58:30.446109",
+    "timestamp": "2025-12-05T14:39:12.368738",
     "phase": "Phase 3: Validation & Qualitative Analysis",
     "source_domain": "Sentiment140",
     "target_domain": "Twitter US Airline Sentiment"
   },
   "cross_domain_validation": {
     "best_model": "Naive Bayes",
-    "best_f1_score": 0.7125899991021686,
+    "best_f1_score": 0.7299455790827462,
     "model_comparison": [
       {
         "model_name": "Logistic Regression",
-        "source_f1": 0.5564296108666247,
-        "target_f1": 0.6594832635149799,
-        "domain_gap": -0.1030536526483552
+        "source_f1": 0.5491880414421627,
+        "target_f1": 0.6624105380910955,
+        "domain_gap": -0.1132224966489328
       },
       {
         "model_name": "Logistic Regression (L1)",
-        "source_f1": 0.556429932816935,
-        "target_f1": 0.6588597321386092,
-        "domain_gap": -0.10242979932167418
+        "source_f1": 0.5496730267535531,
+        "target_f1": 0.659216654343234,
+        "domain_gap": -0.10954362758968084
       },
       {
         "model_name": "Naive Bayes",
-        "source_f1": 0.5486329948306125,
-        "target_f1": 0.7125899991021686,
-        "domain_gap": -0.16395700427155613
+        "source_f1": 0.5314870066617365,
+        "target_f1": 0.7299455790827462,
+        "domain_gap": -0.19845857242100962
       },
       {
-        "model_name": "Random Forest",
-        "source_f1": 0.7513506352194962,
-        "target_f1": 0.6396742590477631,
-        "domain_gap": 0.1116763761717331
+        "model_name": "Random Forest (Original)",
+        "source_f1": 0.7901142174455624,
+        "target_f1": 0.6226590700905206,
+        "domain_gap": 0.16745514735504186
+      },
+      {
+        "model_name": "Random Forest (Regularized)",
+        "source_f1": 0.6105694259886275,
+        "target_f1": 0.6780171794668293,
+        "domain_gap": -0.06744775347820176
       }
     ]
   },
   "qualitative_analysis": {
-    "accuracy": 0.6229205175600739,
+    "accuracy": 0.6264413343895784,
     "total_samples": 11361,
-    "correct_predictions": 7077,
+    "correct_predictions": 7117,
     "insights": [
-      "Overall Accuracy: 62.29% (7077/11361)",
+      "Overall Accuracy: 62.64% (7117/11361)",
       "Correctly classified tweets have 0.18 more negations on average, suggesting the model handles negation well.",
-      "VADER sentiment scores are lower for correctly classified tweets (diff: -0.038)."
+      "VADER sentiment scores are lower for correctly classified tweets (diff: -0.057)."
     ],
     "semantic_patterns": {
       "correct_predictions": {
-        "sample_size": 7077,
-        "avg_negations": 1.258,
-        "avg_intensifiers": 0.085,
-        "avg_vader_score": 0.24686909999999998,
-        "avg_text_length": 9.708,
-        "strong_positive_ratio": 0.346,
-        "strong_negative_ratio": 0.091,
+        "sample_size": 7117,
+        "avg_negations": 1.25,
+        "avg_intensifiers": 0.084,
+        "avg_vader_score": 0.2454848,
+        "avg_text_length": 9.75,
+        "strong_positive_ratio": 0.35,
+        "strong_negative_ratio": 0.094,
         "neutral_ratio": 0.09
       },
       "incorrect_predictions": {
-        "sample_size": 4284,
-        "avg_negations": 1.077,
-        "avg_intensifiers": 0.089,
-        "avg_vader_score": 0.2849597,
-        "avg_text_length": 9.125,
-        "strong_positive_ratio": 0.38,
-        "strong_negative_ratio": 0.075,
+        "sample_size": 4244,
+        "avg_negations": 1.072,
+        "avg_intensifiers": 0.088,
+        "avg_vader_score": 0.3027664,
+        "avg_text_length": 9.025,
+        "strong_positive_ratio": 0.388,
+        "strong_negative_ratio": 0.066,
         "neutral_ratio": 0.094
       },
       "comparison": {
         "avg_negations": {
-          "correct": 1.258,
-          "incorrect": 1.077,
-          "difference": 0.18100000000000005
+          "correct": 1.25,
+          "incorrect": 1.072,
+          "difference": 0.17799999999999994
         },
         "avg_intensifiers": {
-          "correct": 0.085,
-          "incorrect": 0.089,
+          "correct": 0.084,
+          "incorrect": 0.088,
           "difference": -0.00399999999999999
         },
         "avg_vader_score": {
-          "correct": 0.24686909999999998,
-          "incorrect": 0.2849597,
-          "difference": -0.0380906
+          "correct": 0.2454848,
+          "incorrect": 0.3027664,
+          "difference": -0.05728159999999999
         },
         "avg_text_length": {
-          "correct": 9.708,
-          "incorrect": 9.125,
-          "difference": 0.5830000000000002
+          "correct": 9.75,
+          "incorrect": 9.025,
+          "difference": 0.7249999999999996
         }
       }
     }
   },
   "key_findings": [
-    "Best cross-domain model: Naive Bayes with F1-score of 0.7126",
-    "Domain gap: -0.1031 (source: 0.5564, target: 0.6595)",
-    "Overall Accuracy: 62.29% (7077/11361)",
+    "Best cross-domain model: Naive Bayes with F1-score of 0.7299",
+    "Domain gap: -0.1132 (source: 0.5492, target: 0.6624)",
+    "Overall Accuracy: 62.64% (7117/11361)",
     "Correctly classified tweets have 0.18 more negations on average, suggesting the model handles negation well.",
-    "VADER sentiment scores are lower for correctly classified tweets (diff: -0.038).",
+    "VADER sentiment scores are lower for correctly classified tweets (diff: -0.057).",
     "Negation handling: Good (diff: +0.18)"
   ]
 }

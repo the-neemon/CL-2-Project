@@ -1,12 +1,12 @@
 {
   "confusion_matrix": [
     [
-      5269,
-      3804
+      5727,
+      3346
     ],
     [
-      830,
-      1458
+      898,
+      1390
     ]
   ],
   "classes": [
@@ -14,26 +14,26 @@
     1
   ],
   "model_type": "logistic_regression",
-  "accuracy": 0.59211337030191,
+  "accuracy": 0.6264413343895784,
   "per_class_metrics": {
     "0": {
-      "true_positives": 5269,
-      "false_positives": 830,
-      "false_negatives": 3804,
-      "true_negatives": 1458,
-      "precision": 0.8639121167404492,
-      "recall": 0.5807340460707594,
-      "f1_score": 0.6945689427893488,
+      "true_positives": 5727,
+      "false_positives": 898,
+      "false_negatives": 3346,
+      "true_negatives": 1390,
+      "precision": 0.8644528301886792,
+      "recall": 0.6312134905764356,
+      "f1_score": 0.7296470888011212,
       "support": 9073
     },
     "1": {
-      "true_positives": 1458,
-      "false_positives": 3804,
-      "false_negatives": 830,
-      "true_negatives": 5269,
-      "precision": 0.27708095781071834,
-      "recall": 0.6372377622377622,
-      "f1_score": 0.38622516556291386,
+      "true_positives": 1390,
+      "false_positives": 3346,
+      "false_negatives": 898,
+      "true_negatives": 5727,
+      "precision": 0.2934966216216216,
+      "recall": 0.6075174825174825,
+      "f1_score": 0.3957858769931663,
       "support": 2288
     }
   }

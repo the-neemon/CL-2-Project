@@ -1,12 +1,12 @@
 {
   "confusion_matrix": [
     [
-      5461,
-      3612
+      5355,
+      3718
     ],
     [
-      920,
-      1368
+      1035,
+      1253
     ]
   ],
   "classes": [
@@ -14,26 +14,26 @@
     1
   ],
   "model_type": "random_forest",
-  "accuracy": 0.6010914532171464,
+  "accuracy": 0.5816389402341343,
   "per_class_metrics": {
     "0": {
-      "true_positives": 5461,
-      "false_positives": 920,
-      "false_negatives": 3612,
-      "true_negatives": 1368,
-      "precision": 0.8558219714778248,
-      "recall": 0.6018957345971564,
-      "f1_score": 0.7067425909149735,
+      "true_positives": 5355,
+      "false_positives": 1035,
+      "false_negatives": 3718,
+      "true_negatives": 1253,
+      "precision": 0.8380281690140845,
+      "recall": 0.5902127190565414,
+      "f1_score": 0.6926210955183341,
       "support": 9073
     },
     "1": {
-      "true_positives": 1368,
-      "false_positives": 3612,
-      "false_negatives": 920,
-      "true_negatives": 5461,
-      "precision": 0.2746987951807229,
-      "recall": 0.5979020979020979,
-      "f1_score": 0.3764446890478811,
+      "true_positives": 1253,
+      "false_positives": 3718,
+      "false_negatives": 1035,
+      "true_negatives": 5355,
+      "precision": 0.252061959364313,
+      "recall": 0.5476398601398601,
+      "f1_score": 0.3452266152362584,
       "support": 2288
     }
   }

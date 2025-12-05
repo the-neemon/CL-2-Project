@@ -3,9 +3,6 @@ Process the full Sentiment140 and Airline datasets.
 
 This script processes the complete datasets and saves them for model training.
 WARNING: Processing 1.6M tweets may take some time (5-15 minutes).
-
-Author: Naman
-Phase: 1 - Data Preparation
 """
 
 import sys

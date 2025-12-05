@@ -9,9 +9,6 @@ This script:
 
 Usage:
     python scripts/train_with_ablation.py
-
-Author: Shrish
-Phase: 2 - Model Training & Feature Analysis
 """
 
 import argparse

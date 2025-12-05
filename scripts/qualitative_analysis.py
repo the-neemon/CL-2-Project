@@ -6,9 +6,6 @@ This script performs detailed qualitative analysis by:
 2. Analyzing semantic features (negations, intensifiers, contextual patterns)
 3. Interpreting model decisions through feature importance
 4. Generating human-readable insights
-
-Author: Phase 3 Implementation
-Date: November 2025
 """
 
 import os

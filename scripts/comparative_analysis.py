@@ -6,9 +6,6 @@ the impact of semantic enrichment on sentiment classification.
 
 Usage:
     python scripts/comparative_analysis.py --sample-size 10000
-
-Author: Naman
-Phase: 3 - Integration & Analysis
 """
 
 import argparse

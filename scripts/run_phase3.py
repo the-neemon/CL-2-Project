@@ -5,9 +5,6 @@ This script runs the complete Phase 3 pipeline:
 1. Cross-domain validation (Sentiment140 -> Airline)
 2. Qualitative analysis with semantic interpretation
 3. Comprehensive reporting
-
-Author: Phase 3 Implementation
-Date: November 2025
 """
 
 import os

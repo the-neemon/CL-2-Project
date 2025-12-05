@@ -3,9 +3,6 @@ Training script for Phase 2: Traditional Feature Engineering & Models.
 
 Trains and evaluates Naive Bayes and Logistic Regression models
 using traditional N-gram and POS features.
-
-Author: Naman
-Phase: 2
 """
 
 import sys

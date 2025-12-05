@@ -1,12 +1,12 @@
 {
   "confusion_matrix": [
     [
-      5314,
-      3759
+      7144,
+      1929
     ],
     [
-      806,
-      1482
+      1279,
+      1009
     ]
   ],
   "classes": [
@@ -14,26 +14,26 @@
     1
   ],
   "model_type": "naive_bayes",
-  "accuracy": 0.5981867793328052,
+  "accuracy": 0.7176304902737435,
   "per_class_metrics": {
     "0": {
-      "true_positives": 5314,
-      "false_positives": 806,
-      "false_negatives": 3759,
-      "true_negatives": 1482,
-      "precision": 0.8683006535947713,
-      "recall": 0.5856938168191337,
-      "f1_score": 0.6995326795234647,
+      "true_positives": 7144,
+      "false_positives": 1279,
+      "false_negatives": 1929,
+      "true_negatives": 1009,
+      "precision": 0.8481538644188531,
+      "recall": 0.7873911605863552,
+      "f1_score": 0.8166438042981253,
       "support": 9073
     },
     "1": {
-      "true_positives": 1482,
-      "false_positives": 3759,
-      "false_negatives": 806,
-      "true_negatives": 5314,
-      "precision": 0.28277046365197483,
-      "recall": 0.6477272727272727,
-      "f1_score": 0.39367777925355296,
+      "true_positives": 1009,
+      "false_positives": 1929,
+      "false_negatives": 1279,
+      "true_negatives": 7144,
+      "precision": 0.343430905377808,
+      "recall": 0.4409965034965035,
+      "f1_score": 0.3861461921163413,
       "support": 2288
     }
   }
